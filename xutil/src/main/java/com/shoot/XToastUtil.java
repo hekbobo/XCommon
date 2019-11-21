@@ -7,12 +7,11 @@ import android.widget.Toast;
 
 import com.shoot.thread.UiThreadUtils;
 
-
 /**
  *
  */
-public class ToastUtil {
-    private static final String TAG = "ToastUtil";
+public class XToastUtil {
+    private static final String TAG = "XToastUtil";
 
     private static Toast mToast;
     private static Toast mUIToast;
@@ -38,7 +37,7 @@ public class ToastUtil {
         }
     }
 
-    public static  void showShortToast(final Context context, final int id){
+    public static  void showShortToast(final int id, final Context context ){
         if (Looper.getMainLooper().getThread() != Thread.currentThread()){
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override

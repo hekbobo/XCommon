@@ -13,8 +13,6 @@ public class XFileUtils {
     private XFileUtils() {
     }
 
-//****系统文件目录**********************************************************************************************
-
     /**
      * @return 程序系统文件目录
      */
@@ -135,6 +133,18 @@ public class XFileUtils {
     public static boolean isMountSdcard() {
         String status = Environment.getExternalStorageState();
         return status.equals(Environment.MEDIA_MOUNTED);
+    }
+
+    public static String addSlash(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return File.separator;
+        }
+
+        if (path.charAt(path.length() - 1) != File.separatorChar) {
+            return path + File.separatorChar;
+        }
+
+        return path;
     }
 
     public static boolean isExists(String path){
