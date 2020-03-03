@@ -13,7 +13,7 @@ import android.text.TextUtils;
 
 public class XPackageUtil {
 
-    private static PackageInfo getApkInfo(Context context, String path) {
+    public static PackageInfo getApkInfo(Context context, String path) {
         PackageManager pm = context.getPackageManager();
         PackageInfo info = pm.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
         if (info != null) {

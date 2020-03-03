@@ -16,24 +16,20 @@ public class XToastUtil {
     private static Toast mToast;
     private static Toast mUIToast;
 
+    private static Toast mLongToast;
+    private static Toast mLongUIToast;
+
     public static  void showShortToast(final String msg, final Context context){
         if (Looper.getMainLooper().getThread() != Thread.currentThread()){
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mToast == null){
-                        mToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
-                    }
-                    mToast.setText(msg);
-                    mToast .show();
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                 }
             });
         }else {
-            if (mUIToast == null){
-                mUIToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
-            }
-            mUIToast.setText(msg);
-            mUIToast.show();
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -47,6 +43,32 @@ public class XToastUtil {
             });
         }else {
             Toast.makeText(context, id, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static  void showLongToast(final String msg, final Context context){
+        if (Looper.getMainLooper().getThread() != Thread.currentThread()){
+            UiThreadUtils.postOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        }else {
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static  void showLongToast(final int id, final Context context ){
+        if (Looper.getMainLooper().getThread() != Thread.currentThread()){
+            UiThreadUtils.postOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, id, Toast.LENGTH_LONG).show();
+                }
+            });
+        }else {
+            Toast.makeText(context, id, Toast.LENGTH_LONG).show();
         }
     }
 
