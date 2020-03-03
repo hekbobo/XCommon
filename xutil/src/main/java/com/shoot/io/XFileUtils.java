@@ -4,10 +4,17 @@ import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class XFileUtils {
     private XFileUtils() {
@@ -283,4 +290,104 @@ public class XFileUtils {
         }
     }
 
+
+
+    public static void copyFile(String oldPath, String newPath) {
+        try {
+            int bytesum = 0;
+            int byteread = 0;
+            File oldfile = new File(oldPath);
+            if (oldfile.exists()) { //文件存在时
+                InputStream inStream = new FileInputStream(oldPath); //读入原文件
+                FileOutputStream fs = new FileOutputStream(newPath);
+                byte[] buffer = new byte[1444];
+                int length;
+                while ( (byteread = inStream.read(buffer)) != -1) {
+                    bytesum += byteread; //字节数 文件大小
+                    System.out.println(bytesum);
+                    fs.write(buffer, 0, byteread);
+                }
+                inStream.close();
+            }
+        }
+        catch (Exception e) {
+            System.out.println("复制单个文件操作出错");
+            e.printStackTrace();
+
+        }
+
+    }
+    public static String getSaveFilePath(Context context) {
+        return context.getFilesDir() + File.separator+"pic.jpg";
+//        File file = new File(context.getFilesDir(), "pic.jpg");
+//        return file.getAbsolutePath();
+    }
+
+    public static File getSaveFile(Context context) {
+        File file = new File(context.getFilesDir(), "pic.jpg");
+        return file;
+    }
+
+    /**
+     * 读取文件内容，作为字符串返回
+     */
+    public static String readFileAsString(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileNotFoundException(filePath);
+        }
+
+        if (file.length() > 1024 * 1024 * 1024) {
+            throw new IOException("File is too large");
+        }
+
+        StringBuilder sb = new StringBuilder((int) (file.length()));
+        // 创建字节输入流
+        FileInputStream fis = new FileInputStream(filePath);
+        // 创建一个长度为10240的Buffer
+        byte[] bbuf = new byte[10240];
+        // 用于保存实际读取的字节数
+        int hasRead = 0;
+        while ( (hasRead = fis.read(bbuf)) > 0 ) {
+            sb.append(new String(bbuf, 0, hasRead));
+        }
+        fis.close();
+        return sb.toString();
+    }
+
+    /**
+     * 根据文件路径读取byte[] 数组
+     */
+    public static byte[] readFileByBytes(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileNotFoundException(filePath);
+        } else {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) file.length());
+            BufferedInputStream in = null;
+
+            try {
+                in = new BufferedInputStream(new FileInputStream(file));
+                short bufSize = 1024;
+                byte[] buffer = new byte[bufSize];
+                int len1;
+                while (-1 != (len1 = in.read(buffer, 0, bufSize))) {
+                    bos.write(buffer, 0, len1);
+                }
+
+                byte[] var7 = bos.toByteArray();
+                return var7;
+            } finally {
+                try {
+                    if (in != null) {
+                        in.close();
+                    }
+                } catch (IOException var14) {
+                    var14.printStackTrace();
+                }
+
+                bos.close();
+            }
+        }
+    }
 }
