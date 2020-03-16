@@ -7,12 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
-/**
- * 创建时间： 2018/12/7
- * 编写人： qiangxu
- * 功能描述：屏幕尺寸转换
- */
-public class DensityUtil {
+public class XDensityUtil {
 
 	public static int sp2px(Context context, float spValue) {
         float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
