@@ -1,6 +1,7 @@
 package com.shoot;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
@@ -55,4 +56,28 @@ public class XPackageUtil {
 
         return null;
     }
+
+    public static long getInstallTime(Context context, String pkg){
+        try {
+            PackageManager packageManager =context.getApplicationContext().getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(pkg, 0);
+            return packageInfo.firstInstallTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static String getMetaData(Context context, String pkg, String metaData){
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(
+                    pkg, PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString(metaData);
+        }catch (Throwable t){
+            t.printStackTrace();
+        }
+        return "";
+
+    }
+
 }
