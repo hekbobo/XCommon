@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -17,6 +18,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.FieldPosition;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XFileUtils {
     private XFileUtils() {
@@ -236,5 +240,41 @@ public class XFileUtils {
 
         return new String[]{name, extension};
     }
+
+    /**
+     * 获取指定目录内所有文件路径
+     * @param dirPath 需要查询的文件目录
+     * @param type 查询类型，
+     */
+    public static List<String> getAllFiles(String dirPath, String type) {
+        File f = new File(dirPath);
+        if (!f.exists()) {
+            return null;
+        }
+
+        File[] files = f.listFiles();
+
+        if(files == null){
+            return null;
+        }
+
+        List<String> list = new ArrayList<>();
+        for (File _file : files) {
+            if(_file.isFile() && _file.getName().endsWith(type)){
+                String filePath = _file.getAbsolutePath();
+                try {
+                    list.add(filePath);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            } else if(_file.isDirectory()){//查询子目录
+                getAllFiles(_file.getAbsolutePath(), type);
+            } else{
+                Log.e("a", "else");
+            }
+        }
+        return list;
+    }
+
 
 }
