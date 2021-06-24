@@ -24,13 +24,13 @@ public class XToastUtil {
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                   Toast t= Toast.makeText(context, null, Toast.LENGTH_SHORT);
+                   Toast t= Toast.makeText(context, "", Toast.LENGTH_SHORT);
                    t.setText(msg);
                     t.show();
                 }
             });
         }else {
-            Toast t= Toast.makeText(context, null, Toast.LENGTH_SHORT);
+            Toast t= Toast.makeText(context, "", Toast.LENGTH_SHORT);
             t.setText(msg);
             t.show();
 
@@ -42,7 +42,7 @@ public class XToastUtil {
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast t= Toast.makeText(context, null, Toast.LENGTH_SHORT);
+                    Toast t= Toast.makeText(context, "", Toast.LENGTH_SHORT);
                     t.setText(id);
                     t.show();
 
@@ -62,14 +62,14 @@ public class XToastUtil {
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast t=  Toast.makeText(context, null, Toast.LENGTH_LONG);
+                    Toast t=  Toast.makeText(context, "", Toast.LENGTH_LONG);
                     t.setText(msg);
                     t.show();
 
                 }
             });
         }else {
-            Toast t= Toast.makeText(context, null, Toast.LENGTH_LONG);
+            Toast t= Toast.makeText(context, "", Toast.LENGTH_LONG);
             t.setText(msg);
             t.show();
 
@@ -81,14 +81,14 @@ public class XToastUtil {
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast t=  Toast.makeText(context, null, Toast.LENGTH_LONG);
+                    Toast t=  Toast.makeText(context, "", Toast.LENGTH_LONG);
                     t.setText(id);
                     t.show();
 
                 }
             });
         }else {
-            Toast t= Toast.makeText(context, null, Toast.LENGTH_LONG);
+            Toast t= Toast.makeText(context, "", Toast.LENGTH_LONG);
             t.setText(id);
             t.show();
 
