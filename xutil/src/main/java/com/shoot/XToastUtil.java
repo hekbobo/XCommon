@@ -24,16 +24,11 @@ public class XToastUtil {
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                   Toast t= Toast.makeText(context, "", Toast.LENGTH_SHORT);
-                   t.setText(msg);
-                    t.show();
+                   Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                 }
             });
         }else {
-            Toast t= Toast.makeText(context, "", Toast.LENGTH_SHORT);
-            t.setText(msg);
-            t.show();
-
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -42,18 +37,11 @@ public class XToastUtil {
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast t= Toast.makeText(context, "", Toast.LENGTH_SHORT);
-                    t.setText(id);
-                    t.show();
-
+                    Toast.makeText(context, id, Toast.LENGTH_SHORT).show();
                 }
             });
         }else {
-            Toast t= Toast.makeText(context, id, Toast.LENGTH_SHORT);
-            t.setText(id);
-            t.show();
-
-
+            Toast.makeText(context, id, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -62,17 +50,11 @@ public class XToastUtil {
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast t=  Toast.makeText(context, "", Toast.LENGTH_LONG);
-                    t.setText(msg);
-                    t.show();
-
+                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                 }
             });
         }else {
-            Toast t= Toast.makeText(context, "", Toast.LENGTH_LONG);
-            t.setText(msg);
-            t.show();
-
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -81,17 +63,11 @@ public class XToastUtil {
             UiThreadUtils.postOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast t=  Toast.makeText(context, "", Toast.LENGTH_LONG);
-                    t.setText(id);
-                    t.show();
-
+                    Toast.makeText(context, id, Toast.LENGTH_LONG).show();
                 }
             });
         }else {
-            Toast t= Toast.makeText(context, "", Toast.LENGTH_LONG);
-            t.setText(id);
-            t.show();
-
+            Toast.makeText(context, id, Toast.LENGTH_LONG).show();
         }
     }
 
