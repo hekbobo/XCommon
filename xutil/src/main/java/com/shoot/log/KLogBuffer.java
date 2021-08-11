@@ -1,4 +1,4 @@
-package com.shoot.common;
+package com.shoot.log;
 
 import java.util.concurrent.ArrayBlockingQueue;
 

@@ -1,6 +1,4 @@
-package com.shoot.common;
-
-
+package com.shoot.log;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -166,7 +164,7 @@ public abstract class KLogWriter {
 	public static void error(String featureName, String text) {
 		//String module = getClassNameAndMethodName();
 		String message = joinMessage(featureName, text);
-		errorReal("", message);
+		errorReal(featureName, message);
 	}
 	
 	private static final String KLOG_FILE_NAME = "KLogWrap.java";

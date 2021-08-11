@@ -1,4 +1,4 @@
-package com.shoot.common;
+package com.shoot.log;
 
 import android.content.Context;
 
@@ -9,5 +9,4 @@ public interface ILogHelper {
     
     public String getNormalOutputPath();
     public String getLogFileName();
-
 }

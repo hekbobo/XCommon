@@ -1,4 +1,4 @@
-package com.shoot.common;
+package com.shoot.log;
 
 public class KLogDef {
 	public static final int LEVEL_DEBUG = 1000;

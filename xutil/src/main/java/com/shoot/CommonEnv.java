@@ -1,4 +1,4 @@
-package com.shoot.common;
+package com.shoot;
 
 import android.content.Context;
 import android.os.Environment;

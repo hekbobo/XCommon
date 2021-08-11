@@ -1,4 +1,4 @@
-package com.shoot.common;
+package com.shoot.log;
 
 public class KLogBean {
 	public String msg;

@@ -1,7 +1,9 @@
-package com.shoot.common;
+package com.shoot.log;
 
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.shoot.CommonEnv;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -180,17 +182,15 @@ public class KLogOutput {
                 }
                 sb.append(" ] ");
                 sb.append(msg);
-                sb.append(" [ ");
-                sb.append(module);
-                sb.append(" ] ");
+//                sb.append(" [ ");
+//                sb.append(module);
+//                sb.append(" ] ");
                 sb.append("\r");
 
                 byte[] bytes = sb.toString().getBytes(Charset.forName("UTF-8"));
                 os.write(bytes);
                 os.flush();
             } catch (Exception e) {
-            } catch (Error e) {
-//				System.gc();
             }
 
         }

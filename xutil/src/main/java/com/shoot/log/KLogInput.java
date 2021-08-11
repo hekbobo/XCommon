@@ -1,4 +1,4 @@
-package com.shoot.common;
+package com.shoot.log;
 
 public class KLogInput {
 	private KLogBuffer mBuffer;
