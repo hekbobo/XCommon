@@ -10,24 +10,24 @@ import java.util.List;
  * 编写人： qiangxu
  * 功能描述：应用中activity的管理
  **/
-public class AppActivityManager {
+public class AppActivityMgr {
 
-    private static volatile AppActivityManager INSTANCE = null;
-    private AppActivityManager(){}
-    public static AppActivityManager getInstance(){
+    private static volatile AppActivityMgr INSTANCE = null;
+    private AppActivityMgr(){}
+    public static AppActivityMgr get(){
         if(INSTANCE == null){
-            synchronized (AppActivityManager.class){
+            synchronized (AppActivityMgr.class){
                 if(INSTANCE == null){
-                    INSTANCE = new AppActivityManager();
+                    INSTANCE = new AppActivityMgr();
                 }
             }
         }
         return INSTANCE;
     }
 
-    private List<Activity> mActivityList = new ArrayList<>();
+    private final List<Activity> mActivityList = new ArrayList<>();
 
-    public void addActivity(Activity act){
+    public void add(Activity act){
         if (!mActivityList.contains(act)) {
             mActivityList.add(act);
         }
@@ -40,7 +40,7 @@ public class AppActivityManager {
         return null;
     }
 
-    public void removeActivity(Activity act){
+    public void remove(Activity act){
         if (mActivityList.contains(act)){
             mActivityList.remove(act);
         }
