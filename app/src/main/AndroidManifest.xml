@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:theme="@style/myTransparent"
+            android:name=".InputChooseActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

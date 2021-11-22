@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:background="#33ff0000"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:layout_marginBottom="20dp"
+        >
+        <TextView
+            android:id="@+id/tv_dlg_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="abc"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ff0000"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            >
+        </TextView>
+
+<!--        <ImageView-->
+<!--            android:id="@+id/img_video_help"-->
+<!--            android:layout_width="32dp"-->
+<!--            android:layout_height="32dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:padding="8dp"-->
+        <!--        <TextView-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_below="@+id/tv_dlg_title"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:background="@color/divider_line"-->
+        <!--            >-->
+        <!--        </TextView>-->
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/fab"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginBottom="25dp"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:src="@drawable/float_close"-->
+<!--            android:background="@color/float_btn_color_input"-->
+<!--            android:backgroundTint="@color/float_btn_color_input"-->
+<!--            app:backgroundTint="@color/float_btn_color_input"-->
+<!--            app:borderWidth="0dp"-->
+<!--            app:elevation="50dp"-->
+<!--            />-->
+    </FrameLayout>
+
+
+</LinearLayout>
