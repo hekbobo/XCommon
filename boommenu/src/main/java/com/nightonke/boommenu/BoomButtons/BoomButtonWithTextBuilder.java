@@ -364,11 +364,22 @@ public abstract class BoomButtonWithTextBuilder<T> extends BoomButtonBuilder<T> 
         return (T) this;
     }
 
-
-    public T subNormalTextColor(int color) {
-        this.subNormalTextColor = color;
+    public T subnormalTextColorRes(int normalTextColorRes) {
+        if (this.subNormalTextColorRes != normalTextColorRes) {
+            this.subNormalTextColorRes = normalTextColorRes;
+            BoomButton button = button();
+            if (button != null) {
+                button.subNormalTextColorRes = normalTextColorRes;
+                button.updateText();
+            }
+        }
         return (T) this;
     }
+
+//    public T subNormalTextColor(int color) {
+//        this.subNormalTextColor = color;
+//        return (T) this;
+//    }
 
 
     public T background(boolean v) {
