@@ -62,4 +62,14 @@ public class OnBoomListenerAdapter implements OnBoomListener {
 
     }
 
+    @Override
+    public void dim() {
+
+    }
+
+    @Override
+    public void light() {
+
+    }
+
 }

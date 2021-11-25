@@ -183,6 +183,24 @@ public class BoomMenuButton extends FrameLayout implements InnerOnBoomButtonClic
     private boolean isOrientationChanged = false;
     private OrientationEventListener orientationEventListener;
 
+    View mExpand;
+
+    public void addExpandView(View v){
+        mExpand = v;
+        if (v == null || background == null){
+            return;
+        }
+        background.addView(v);
+    }
+
+    View getExpandView(){
+        return mExpand;
+    }
+
+    public BackgroundView getBackgroundView(){
+        return background;
+    }
+
     private void ____________________________Initialization() {}
     //region Constructor and Initializer
 
@@ -605,6 +623,8 @@ public class BoomMenuButton extends FrameLayout implements InnerOnBoomButtonClic
         createBackground();
         Util.setVisibility(VISIBLE, background);
         long duration = immediately ? 1 : showDuration + showDelay * (pieces.size() - 1);
+        if (onBoomListener != null) onBoomListener.dim();
+
         background.dim(duration, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -622,6 +642,7 @@ public class BoomMenuButton extends FrameLayout implements InnerOnBoomButtonClic
     private void lightBackground(boolean immediately) {
         createBackground();
         long duration = immediately ? 1 : hideDuration + hideDelay * (pieces.size() - 1);
+        if (onBoomListener != null) onBoomListener.light();
         background.light(duration, null);
         if (piecePlaceEnum == Share) {
             AnimationManager.animate( shareLinesView, "hideProcess", 0, duration,

@@ -44,4 +44,8 @@ public interface OnBoomListener {
      */
     void onBoomDidShow();
 
+    void dim();
+
+    void light();
+
 }

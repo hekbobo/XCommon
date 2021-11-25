@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">XCommon</string>
+
+    <string name="input_qr_code_sub_text">（拍照录入）</string>
+    <string name="input_take_picture_sub_text">（从电脑上传）</string>
+    <string name="input_from_import_sub_text">（导入PDF）</string>
+    <string name="input_from_ofd_input">发票网址/短信</string>
+    <string name="input_from_ofd_input_sub_text">（粘贴录入）</string>
+    <string name="input_from_from_wx_sub_text">（从微信导入）</string>
+
+    <string name="input_item_invoice_phone_sub">（从手机上传）</string>
+
+    <string name="input_from_ofd_scan">UKey盘发票</string>
+    <string name="input_from_ofd_scan_sub_text">（扫描录入）</string>
+
+    <string name="input_ofd_">OFD发票二维码</string>
+    <string name="input_invoice_dialog_title">选择票据类型</string>
+
+
+
+    <string name="input_paper_invoice">纸质发票</string>
+    <string name="input_electronic_invoice">电子发票</string>
+    <string name="input_from_import">银行回单</string>
+    <string name="input_item_zero_report">零申报模式</string>
+    <string name="input_item_zero_report_description">（自动记账报税）</string>
+
+    <string name="input_item_temp_estimate">暂估入账</string>
+    <string name="input_item_temp_estimate_description">（未收到发票）</string>
 </resources>

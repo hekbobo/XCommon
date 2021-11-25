@@ -143,7 +143,7 @@ public class TextOutsideCircleButton extends BoomButton {
          * @return the builder
          */
         public Builder textTopMargin(int textTopMargin) {
-            if (textTopMargin < 0) textTopMargin = 0;
+//            if (textTopMargin < 0) textTopMargin = 0;
             this.textTopMargin = textTopMargin;
             return this;
         }
