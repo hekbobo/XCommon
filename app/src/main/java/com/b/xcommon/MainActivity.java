@@ -1,5 +1,6 @@
 package com.b.xcommon;
 
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
         return new TextOutsideCircleButton.Builder()
                 .normalImageRes(imageResources[i])
                 .normalTextRes(item_text[i])
-                .textTopMargin(Util.dp2px(-5))
+                .imageRect(new Rect(Util.dp2px(0), Util.dp2px(0),Util.dp2px(50), Util.dp2px(50)))
+                .textTopMargin(Util.dp2px(-14))
                 .background(false)
                 .subTextGravity(Gravity.CENTER)
                 .shadowEffect(false)

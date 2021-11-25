@@ -14,6 +14,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -552,11 +553,18 @@ public abstract class BoomButton extends FrameLayout {
         LayoutParams params = new LayoutParams(
                 imageRect.right - imageRect.left,
                 imageRect.bottom - imageRect.top);
+//        LayoutParams params = new LayoutParams(
+//                LayoutParams.WRAP_CONTENT,
+//                LayoutParams.WRAP_CONTENT);
         params.leftMargin = imageRect.left;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             params.setMarginStart(imageRect.left);
         params.topMargin = imageRect.top;
-        if (image != null) image.setLayoutParams(params);
+        if (image != null) {
+            params.gravity = Gravity.CENTER;
+            image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            image.setLayoutParams(params);
+        }
     }
 
     void updateImagePadding() {
