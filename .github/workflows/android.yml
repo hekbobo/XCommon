@@ -29,7 +29,7 @@ jobs:
     - name: check
       run: |
           dir 
-          cd /app/build/outputs/apk/
+          cd app
           dir
       # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
