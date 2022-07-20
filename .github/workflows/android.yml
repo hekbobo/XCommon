@@ -23,17 +23,18 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew assambleRelease
       
       
     - name: check
       run: |
           dir 
-          cd app/build/
+          pwd
+          cd app/build/outputs/apk
           dir
       # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-          name: MSIX Package
-          path: app/build/outputs
+          name: ReleasePackage
+          path: app/build/outputs/apk
