@@ -339,6 +339,21 @@ public class PiecePlaceManager {
                 pos.add(point(+a, +a));
                 pos.add(point(0, +a_2_0));
                 break;
+            case DOT_10_1:
+                pos.add(point(-hm - r_2_0, -vm - r_2_0));
+                pos.add(point(0, -vm - r_2_0));
+                pos.add(point(+hm + r_2_0, -vm - r_2_0));
+
+                pos.add(point(-hm - r_2_0, 0));
+                pos.add(point(0, 0));
+                pos.add(point(+hm + r_2_0, 0));
+
+                pos.add(point(-hm - r_2_0, +vm + r_2_0));
+                pos.add(point(0, +vm + r_2_0));
+                pos.add(point(+hm + r_2_0, +vm + r_2_0));
+
+                pos.add(point(-hm - r_2_0, +vm ));
+                break;
             case Custom:
                 for (PointF po : bmb.getCustomPiecePlacePositions()) pos.add(point(po.x, po.y));
                 break;

@@ -8,12 +8,14 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
+import android.widget.FrameLayout;
 
 import com.nightonke.boommenu.Animation.AnimationManager;
 import com.nightonke.boommenu.Animation.BoomEnum;
 import com.nightonke.boommenu.Animation.EaseEnum;
 import com.nightonke.boommenu.Animation.OrderEnum;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
+import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
@@ -43,10 +45,15 @@ public class MainActivity extends AppCompatActivity {
         bmb.setOrderEnum(OrderEnum.RANDOM);
         bmb.setShowDelay(0);
         bmb.setUse3DTransformAnimation(true);
-        bmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_9_1);
-        bmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_9_1);
-        bmb.setShowDuration(400);
+        bmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_10_1);
+        bmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_10_1);
         bmb.setCacheOptimization(false);
+        bmb.setButtonPlaceAlignmentEnum(ButtonPlaceAlignmentEnum.Bottom);
+        bmb.setButtonBottomMargin(Util.dp2px(100));
+
+        bmb.setShowDuration(200);
+        bmb.setHideDuration(100);
+
 
         initListener(bmb);
 
@@ -63,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void dim() {
                 mExpandView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.xexpand, bmb.getBackgroundView(), false);
-                mExpandView.findViewById(R.id.expand_btn).setOnClickListener(new View.OnClickListener() {
+                mExpandBtn= mExpandView.findViewById(R.id.expand_btn);
+                mExpandBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         bmb.reboom();
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         bmb.addExpandView(mExpandView);
                         AnimationManager.animate("rotation", 0, 300, new float[]{0, 135},
-                                new BounceInterpolator() , new ArrayList<View>(){{add(mExpandView);}});
+                                new BounceInterpolator() , new ArrayList<View>(){{add(mExpandBtn);}});
                     }
                 }, 100);
             }
@@ -85,13 +93,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         AnimationManager.animate("rotation", 0, 300, new float[]{135, 0},
-                                new BounceInterpolator() , new ArrayList<View>(){{add(mExpandView);}});
+                                new BounceInterpolator() , new ArrayList<View>(){{add(mExpandBtn);}});
                     }
                 }, 100);
             }
         });
     }
-
+    FrameLayout mExpandBtn;
     static TextOutsideCircleButton.Builder getTextOutsideCircleButtonBuilder(int i) {
         return new TextOutsideCircleButton.Builder()
                 .normalImageRes(imageResources[i])
@@ -122,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.input_zero_report,
             R.drawable.input_zero_report,
             R.drawable.input_zero_report,
+            R.drawable.input_zero_report,
             R.drawable.input_zero_report
     };
 
@@ -135,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             R.string.input_from_import,
             R.string.input_item_zero_report,
             R.string.input_item_temp_estimate,
+            R.string.input_item_temp_estimate,
     };
 
     private static final int[] item_description = new int[]{
@@ -146,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
             R.string.input_take_picture_sub_text,
             R.string.input_from_import_sub_text,
             R.string.input_item_zero_report_description,
+            R.string.input_item_temp_estimate_description,
             R.string.input_item_temp_estimate_description,
     };
 

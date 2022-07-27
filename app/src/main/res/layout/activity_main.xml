@@ -29,10 +29,10 @@
         android:clickable="false"
         app:bmb_highlightedColor="@android:color/holo_blue_bright"
         >
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ic_add_black_24dp"
+            android:src="@drawable/input_bank_bill"
             android:layout_gravity="center" />
     </com.nightonke.boommenu.BoomMenuButton>
 

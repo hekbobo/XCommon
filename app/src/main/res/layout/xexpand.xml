@@ -1,26 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
+    android:layout_marginBottom="27dp"
     android:layout_width="wrap_content"
-    android:layout_gravity="bottom|center_horizontal"
     android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:layout_marginTop="100dp"
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/tv_dlg_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/input_dialog_title"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            >
+        </TextView>
+
+        <ImageView
+            android:layout_marginStart="20dp"
+            android:id="@+id/img_video_help"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:padding="8dp"
+            android:src="@drawable/question_mark" />
+    </RelativeLayout>
+
     <FrameLayout
+        android:layout_gravity="bottom|center_horizontal"
         android:background="@drawable/oval"
         android:id="@+id/expand_btn"
         android:layout_margin="27dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         >
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ic_add_black_24dp"
+            android:src="@drawable/input_bank_bill"
             android:layout_gravity="center" />
     </FrameLayout>
-</FrameLayout>
+</RelativeLayout>
 
