@@ -61,6 +61,108 @@ public class XFileUtils {
     }
 
     /**
+     * 移动一个文件
+     * srcFile源文件
+     * destFile目标文件
+     */
+    public static boolean moveFileTo(File srcFile, File destFile) {
+        if (!srcFile.exists() || srcFile.isDirectory() || destFile.isDirectory()) {
+            return false;
+        }
+        boolean iscopy = copyFileTo(srcFile, destFile);
+        if (!iscopy) {
+            return false;
+        } else {
+            deleteFile(srcFile);
+            return true;
+        }
+    }
+
+    /**
+     * 创建文件
+     * file 文件
+     */
+    public static boolean creatFile(File file) {
+        boolean newFile = false;
+        if (!file.exists()) {
+            try {
+                newFile = file.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+                newFile = false;
+            }
+        }
+        return newFile;
+    }
+
+    /**
+     * 拷贝一个文件
+     * srcFile源文件
+     * destFile目标文件
+     */
+    public static boolean copyFileTo(File srcFile, File destFile) {
+        boolean copyFile = false;
+        if (!srcFile.exists() || srcFile.isDirectory() || destFile.isDirectory()) {
+            copyFile = false;
+        } else {
+            FileInputStream is = null;
+            FileOutputStream os = null;
+            try {
+                is = new FileInputStream(srcFile);
+                os = new FileOutputStream(destFile);
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = is.read(buffer)) > 0) {
+                    os.write(buffer, 0, length);
+                }
+                copyFile = true;
+            } catch (Exception e) {
+                copyFile = false;
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (os != null) {
+                    try {
+                        os.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+        return copyFile;
+    }
+    public static boolean copyFileTo(String srcFile, String destFile) {
+        return copyFileTo(new File(srcFile), new File(destFile));
+
+    }
+    /**
+     * InputStream 转字符串
+     */
+    public static String readInputStream(InputStream inputStream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            int len1;
+            while ((len1 = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len1);
+            }
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException var5) {
+        }
+
+        return outputStream.toString();
+    }
+
+
+    /**
      * 文件读取
      * filePath 文件路径
      */
@@ -98,6 +200,17 @@ public class XFileUtils {
 
     public static boolean deleteFile(File file) {
         return file != null && (!file.exists() || file.isFile() && file.delete());
+    }
+
+    /**
+     * 修改SD卡上的文件或目录名
+     * oldFilePath 旧文件或文件夹路径
+     * newFilePath 新文件或文件夹路径
+     */
+    public static boolean renameFile(String oldFilePath, String newFilePath) {
+        File oldFile = new File(oldFilePath);
+        File newFile = new File(newFilePath);
+        return oldFile.renameTo(newFile);
     }
 
     public static void copyFile(String oldPath, String newPath) {

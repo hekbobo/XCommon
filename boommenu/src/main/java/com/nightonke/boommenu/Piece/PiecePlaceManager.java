@@ -361,8 +361,8 @@ public class PiecePlaceManager {
                 throw new RuntimeException("Unknown piece-place-enum!");
         }
 
-        for (PointF po : pos) positions.add(new RectF(po.x + parentSize.x / 2 - r,
-                po.y + parentSize.y / 2 - r, r_2_0, r_2_0));
+        for (PointF po : pos)
+            positions.add(new RectF(po.x + parentSize.x / 2 - r, po.y + parentSize.y / 2 - r, r_2_0, r_2_0));
 
         return positions;
     }

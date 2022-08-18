@@ -195,11 +195,7 @@ public class XFilePathUtil {
         } else {
             File[] files = dir.listFiles();
             if (files != null && files.length != 0) {
-                File[] var2 = files;
-                int var3 = files.length;
-
-                for(int var4 = 0; var4 < var3; ++var4) {
-                    File file = var2[var4];
+                for (File file : files) {
                     if (file.isFile()) {
                         if (!file.delete()) {
                             return false;

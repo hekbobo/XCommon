@@ -365,7 +365,7 @@ public class ButtonPlaceManager {
                 ps.add(point(0, +vm + h));
                 ps.add(point(+hm + w, +vm + h));
 
-                ps.add(point(-hm -w , +vm + h +h+vm));
+                ps.add(point(-hm -w , +vm + h_2_0 + vm));
 
                 break;
             case Custom:
@@ -752,22 +752,22 @@ public class ButtonPlaceManager {
                 ps.add(point(+a, +a));
                 ps.add(point(0, +a_2_0));
                 break;
-            case SC_10_1:
-                ps.add(point(-hm - r_2_0, -vm - r_2_0));
-                ps.add(point(0, -vm - r_2_0));
-                ps.add(point(+hm + r_2_0, -vm - r_2_0));
-
-                ps.add(point(-hm - r_2_0, 0));
-                ps.add(point(0, 0));
-                ps.add(point(+hm + r_2_0, 0));
-
-                ps.add(point(-hm - r_2_0, +vm + r_2_0));
-                ps.add(point(0, +vm + r_2_0));
-                ps.add(point(+hm + r_2_0, +vm + r_2_0));
-
-                ps.add(point(-hm -r_2_0 , +vm + r_2_0 +r_2_0+vm));
-
-                break;
+//            case SC_10_1:
+//                ps.add(point(-hm - r_2_0, -vm - r_2_0));
+//                ps.add(point(0, -vm - r_2_0));
+//                ps.add(point(+hm + r_2_0, -vm - r_2_0));
+//
+//                ps.add(point(-hm - r_2_0, 0));
+//                ps.add(point(0, 0));
+//                ps.add(point(+hm + r_2_0, 0));
+//
+//                ps.add(point(-hm - r_2_0, +vm + r_2_0));
+//                ps.add(point(0, +vm + r_2_0));
+//                ps.add(point(+hm + r_2_0, +vm + r_2_0));
+//
+//                ps.add(point(-hm -r_2_0 , +vm + r_2_0 +r_2_0+vm));
+//
+//                break;
             case Custom:
                 for (PointF p : bmb.getCustomButtonPlacePositions()) ps.add(point(p.x, p.y));
                 break;

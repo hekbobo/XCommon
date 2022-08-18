@@ -33,7 +33,7 @@ import static android.Manifest.permission.EXPAND_STATUS_BAR;
  * @author <a href="mailto:shouheng2015@gmail.com">WngShhng</a>
  * @version 2019-12-08 12:57
  */
-public final class BarUtils {
+public final class XStatusBarUtils {
 
     ///////////////////////////////////////////////////////////////////////////
     // status bar
@@ -707,7 +707,7 @@ public final class BarUtils {
         return null;
     }
 
-    private BarUtils() {
+    private XStatusBarUtils() {
         throw new UnsupportedOperationException("u can't initialize me!");
     }
 }
