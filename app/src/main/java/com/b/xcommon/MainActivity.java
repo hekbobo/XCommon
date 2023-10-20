@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         bmb.setOrderEnum(OrderEnum.RANDOM);
         bmb.setShowDelay(0);
         bmb.setUse3DTransformAnimation(true);
-        bmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_10_1);
-        bmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_10_1);
+        bmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_11_1);
+        bmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_11_1);
         bmb.setCacheOptimization(false);
         bmb.setButtonPlaceAlignmentEnum(ButtonPlaceAlignmentEnum.Bottom);
         bmb.setButtonBottomMargin(Util.dp2px(100));
@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             R.string.input_item_zero_report,
             R.string.input_item_temp_estimate,
             R.string.input_item_temp_estimate,
+            R.string.input_item_temp_estimate,
     };
 
     private static final int[] item_description = new int[]{
@@ -156,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
             R.string.input_take_picture_sub_text,
             R.string.input_from_import_sub_text,
             R.string.input_item_zero_report_description,
+            R.string.input_item_temp_estimate_description,
             R.string.input_item_temp_estimate_description,
             R.string.input_item_temp_estimate_description,
     };

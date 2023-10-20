@@ -47,12 +47,16 @@ public enum PiecePlaceEnum {
     DOT_10_1(35),
     DOT_10_2(36),
     DOT_10_3(37),
-    HAM_1  (38),
-    HAM_2  (39),
-    HAM_3  (40),
-    HAM_4  (41),
-    HAM_5  (42),
-    HAM_6  (43),
+
+    DOT_11_1(38),
+    DOT_11_2(39),
+    DOT_11_3(40),
+    HAM_1  (41),
+    HAM_2  (42),
+    HAM_3  (43),
+    HAM_4  (44),
+    HAM_5  (45),
+    HAM_6  (46),
 
     Share  (99999),
 
@@ -126,6 +130,9 @@ public enum PiecePlaceEnum {
             case DOT_10_1:
             case DOT_10_2:
             case DOT_10_3: return 10;
+            case DOT_11_1:
+            case DOT_11_2:
+            case DOT_11_3: return 11;
             case Unknown: return 0;
             default: return -1;
         }

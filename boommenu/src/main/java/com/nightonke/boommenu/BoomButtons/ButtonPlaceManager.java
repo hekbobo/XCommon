@@ -366,6 +366,22 @@ public class ButtonPlaceManager {
                 ps.add(point(+hm + w, +vm + h));
 
                 ps.add(point(-hm -w , +vm + h_2_0 + vm));
+                break;
+            case SC_11_1:
+                ps.add(point(-hm - w, -vm - h));
+                ps.add(point(0, -vm - h));
+                ps.add(point(+hm + w, -vm - h));
+
+                ps.add(point(-hm - w, 0));
+                ps.add(point(0, 0));
+                ps.add(point(+hm + w, 0));
+
+                ps.add(point(-hm - w, +vm + h));
+                ps.add(point(0, +vm + h));
+                ps.add(point(+hm + w, +vm + h));
+
+                ps.add(point(-hm -w , +vm + h_2_0 + vm));
+                ps.add(point(0, +vm + h_2_0 + vm));
 
                 break;
             case Custom:
@@ -386,7 +402,7 @@ public class ButtonPlaceManager {
             case SC_6_2: case SC_6_3: case SC_6_4: case SC_6_5: case SC_6_6: case SC_7_1:
             case SC_7_2: case SC_7_3: case SC_7_4: case SC_7_5: case SC_7_6: case SC_8_1:
             case SC_8_2: case SC_8_3: case SC_8_4: case SC_8_5: case SC_8_6: case SC_8_7:
-            case SC_9_1: case SC_9_2: case SC_9_3: case SC_10_1:
+            case SC_9_1: case SC_9_2: case SC_9_3: case SC_10_1: case SC_11_1:
                 adjust(ps, 0, h_0_5 - w_0_5);
                 break;
             default:
