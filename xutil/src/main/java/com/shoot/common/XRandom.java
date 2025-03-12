@@ -102,6 +102,20 @@ public class XRandom {
 		return res;
 	}
 
+	public static String randomAlphabet(int n)
+	{
+		String chars = "abcdefghijklmnkoqrspuvwsyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		String res = "";
+		Random rnd = new Random();
+		int leng = chars.length();
+		for (int i = 0; i < n; i++)
+		{
+			res = res + chars.charAt(rnd.nextInt(leng));
+
+		}
+		return res;
+	}
+
 	/**
 	 * 获取CPU型号
 	 * @return
