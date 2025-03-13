@@ -104,7 +104,7 @@ public class XRandom {
 
 	public static String randomAlphabet(int n)
 	{
-		String chars = "abcdefghijklmnkoqrspuvwsyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		String chars = "abcdefghijklmnkoqrspuvwsyz0123456789";
 		String res = "";
 		Random rnd = new Random();
 		int leng = chars.length();
