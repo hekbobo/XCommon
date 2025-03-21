@@ -20,10 +20,10 @@ import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
-import com.nightonke.boommenu.OnBoomListener;
 import com.nightonke.boommenu.OnBoomListenerAdapter;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.nightonke.boommenu.Util;
+import com.shoot.common.AppActivityMgr;
 
 import java.util.ArrayList;
 
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AppActivityMgr.get().add(this);
 
         BoomMenuButton bmb = findViewById(R.id.fab);
         bmb.setBoomEnum(BoomEnum.RANDOM);
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.input_invoice_wx,
             R.drawable.input_pc,
             R.drawable.input_phone,
-            R.drawable.input_zero_report,
+            R.drawable.input_zkp_new,
             R.drawable.input_zero_report,
             R.drawable.input_zero_report,
             R.drawable.input_zero_report,

@@ -87,5 +87,16 @@ public class AppActivityMgr {
             }
         }
     }
+    /**
+     * 关闭指定的activity,除了exclude
+     * @param include
+     */
+    public void finishSpecificActivity(List<Class> include){
+        for(Activity act : mActivityList){
+            if(include.contains(act.getClass())){
+                act.finish();
+            }
+        }
+    }
 
 }
