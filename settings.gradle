@@ -1,1 +1,1 @@
-include ':app', ':xutil',':boommenu'
+include ':app', ':xutil',':boommenu','okhttputils'
