@@ -1,41 +1,33 @@
 package com.b.xcommon;
 
-import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.BounceInterpolator;
-import android.widget.FrameLayout;
 
-import com.nightonke.boommenu.Animation.AnimationManager;
-import com.nightonke.boommenu.Animation.BoomEnum;
-import com.nightonke.boommenu.Animation.EaseEnum;
-import com.nightonke.boommenu.Animation.OrderEnum;
-import com.nightonke.boommenu.BoomButtons.BoomButton;
-import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
-import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
-import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
+import com.google.gson.JsonObject;
 import com.nightonke.boommenu.BoomMenuButton;
-import com.nightonke.boommenu.ButtonEnum;
-import com.nightonke.boommenu.OnBoomListenerAdapter;
-import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-import com.nightonke.boommenu.Util;
 import com.shoot.common.AppActivityMgr;
 import com.shoot.common.XToastUtil;
 import com.yingjie.addressselector.api.AdType;
 import com.yingjie.addressselector.api.CYJAdSelector;
 import com.yingjie.addressselector.api.OnSelectorListener;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.request.RequestCall;
 
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String MAIN_ACTIVITY = "MainActivity";
-    View mExpandView;
+    public static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,131 +36,26 @@ public class MainActivity extends AppCompatActivity {
 
         AppActivityMgr.get().add(this);
 
-        BoomMenuButton bmb = findViewById(R.id.fab);
-        bmb.setBoomEnum(BoomEnum.RANDOM);
-        bmb.setButtonEnum(ButtonEnum.TextOutsideCircle);
-        bmb.setShowMoveEaseEnum(EaseEnum.EaseInSine);
-        bmb.setOrderEnum(OrderEnum.RANDOM);
-        bmb.setShowDelay(0);
-        bmb.setUse3DTransformAnimation(true);
-        bmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_11_1);
-        bmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_11_1);
-        bmb.setCacheOptimization(false);
-        bmb.setButtonPlaceAlignmentEnum(ButtonPlaceAlignmentEnum.Bottom);
-        bmb.setButtonBottomMargin(Util.dp2px(100));
+        new BoomMenuDemo().init((BoomMenuButton) findViewById(R.id.fab));
 
-        bmb.setShowDuration(200);
-        bmb.setHideDuration(100);
-
-
-        initListener(bmb);
-
-        address();
-
-        for (int i = 0; i < bmb.getPiecePlaceEnum().pieceNumber(); i++)
-            bmb.addBuilder(getTextOutsideCircleButtonBuilder(i));
+        findViewById(R.id.btn_address).setOnClickListener(this);
+        findViewById(R.id.btn_test).setOnClickListener(this);
     }
 
-    private void initListener(final BoomMenuButton bmb) {
-        bmb.setOnBoomListener(new OnBoomListenerAdapter() {
-            @Override
-            public void onClicked(int index, BoomButton boomButton) {
-                bmb.reboomImmediately();
-            }
-            @Override
-            public void dim() {
-                mExpandView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.xexpand, bmb.getBackgroundView(), false);
-                mExpandBtn= mExpandView.findViewById(R.id.expand_btn);
-                mExpandBtn.setOnClickListener(new View.OnClickListener() {
+
+
+    void address(){
+        new CYJAdSelector().
+                setSelectColor(R.color.colorPrimary).
+                setBottomLineColor(R.color.colorPrimary).
+                build()
+                .showSelector(this, AdType.ADD, "", "", "", new OnSelectorListener() {
                     @Override
-                    public void onClick(View v) {
-                        bmb.reboom();
+                    public void onSelector(String province, String city, String area) {
+                        XToastUtil.showShortToast(province+city+area, MainActivity.this);
                     }
                 });
-                bmb.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        bmb.addExpandView(mExpandView);
-                        AnimationManager.animate("rotation", 0, 300, new float[]{0, 135},
-                                new BounceInterpolator() , new ArrayList<View>(){{add(mExpandBtn);}});
-                    }
-                }, 100);
-            }
-
-            @Override
-            public void light() {
-                bmb.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        AnimationManager.animate("rotation", 0, 300, new float[]{135, 0},
-                                new BounceInterpolator() , new ArrayList<View>(){{add(mExpandBtn);}});
-                    }
-                }, 100);
-            }
-        });
     }
-    FrameLayout mExpandBtn;
-    static TextOutsideCircleButton.Builder getTextOutsideCircleButtonBuilder(int i) {
-        return new TextOutsideCircleButton.Builder()
-                .normalImageRes(imageResources[i])
-                .normalTextRes(item_text[i])
-                .imageRect(new Rect(Util.dp2px(0), Util.dp2px(0),Util.dp2px(50), Util.dp2px(50)))
-                .textTopMargin(Util.dp2px(-14))
-                .background(false)
-                .subTextGravity(Gravity.CENTER)
-                .shadowEffect(false)
-                .subNormalTextRes(item_description[i])
-                .buttonRadius(Util.dp2px(45))
-                .subnormalTextColorRes(R.color.sub_text_color);
-    }
-
-    private static final int[] imageResources = new int[]{
-            R.drawable.in_bank_bill_logo,
-            R.drawable.in_invoice_logo,
-            R.drawable.input_bank_bill,
-            R.drawable.input_invoice_paper,
-            R.drawable.input_invoice_sms_web,
-            R.drawable.input_invoice_temp_estimates,
-            R.drawable.input_invoice_u_key,
-            R.drawable.input_invoice_wx,
-            R.drawable.input_pc,
-            R.drawable.input_phone,
-            R.drawable.input_zkp_new,
-            R.drawable.input_zero_report,
-            R.drawable.input_zero_report,
-            R.drawable.input_zero_report,
-            R.drawable.input_zero_report,
-            R.drawable.input_zero_report,
-            R.drawable.input_zero_report
-    };
-
-    private static final int[] item_text = new int[]{
-            R.string.input_paper_invoice,
-            R.string.input_electronic_invoice,
-            R.string.input_electronic_invoice,
-            R.string.input_electronic_invoice,
-            R.string.input_from_ofd_input,
-            R.string.input_from_ofd_scan,
-            R.string.input_from_import,
-            R.string.input_item_zero_report,
-            R.string.input_item_temp_estimate,
-            R.string.input_item_temp_estimate,
-            R.string.input_item_temp_estimate,
-    };
-
-    private static final int[] item_description = new int[]{
-            R.string.input_qr_code_sub_text,
-            R.string.input_take_picture_sub_text,
-            R.string.input_item_invoice_phone_sub,
-            R.string.input_from_from_wx_sub_text,
-            R.string.input_from_ofd_input_sub_text,
-            R.string.input_take_picture_sub_text,
-            R.string.input_from_import_sub_text,
-            R.string.input_item_zero_report_description,
-            R.string.input_item_temp_estimate_description,
-            R.string.input_item_temp_estimate_description,
-            R.string.input_item_temp_estimate_description,
-    };
 
     void testxxx(){
         //        KLogWrap.init(KLockerLogHelper.getInstance(this));
@@ -185,16 +72,72 @@ public class MainActivity extends AppCompatActivity {
 //        XFileUtils.getAllFiles(path+ "/android/data/com.tencent.mm/MicroMsg/Download/", "pdf");
     }
 
-    void address(){
-        new CYJAdSelector().
-                setSelectColor(R.color.colorPrimary).
-                setBottomLineColor(R.color.colorPrimary).
-                build()
-                .showSelector(this, AdType.ADD, "", "", "", new OnSelectorListener() {
-            @Override
-            public void onSelector(String province, String city, String area) {
-                XToastUtil.showShortToast(province+city+area, MainActivity.this);
-            }
-        });
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btn_address){
+            address();
+        }
+        if (view.getId() == R.id.btn_test){
+            testNet();
+        }
+    }
+    OkHttpClient mOkHttpClient = null;
+    public void initHtop(){
+        OkHttpClient.Builder builder  = new OkHttpClient.Builder()
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .callTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true);
+
+        mOkHttpClient = builder.build();
+        OkHttpUtils.initClient(mOkHttpClient);
+    }
+    String URL = "https://client.qzhuli.com/user/login_by_password";
+    private  void testNet() {
+        MapBuild map = new MapBuild();
+                map
+                .add("phone", "18666976745")
+                .add("password", "qwert123456")
+                .build();
+
+        String content = mapToJsonString(map.getParam());
+
+//        Post(OkHttpUtils
+//                .post()
+//                .params(map.getParam())
+//                .url(URL)
+//                .build());
+
+        Post(OkHttpUtils
+                .postString()
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .content(content)
+                .url(URL)
+                .build());
+    }
+
+    private void Post(RequestCall requestCall) {
+        requestCall
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e(TAG, response);
+                    }
+                });
+    }
+
+    public static String mapToJsonString(Map<String, String> map){
+        JsonObject jsonArray = new JsonObject();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            jsonArray.addProperty(entry.getKey(), entry.getValue());
+        }
+        return jsonArray.toString();
     }
 }

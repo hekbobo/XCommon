@@ -27,4 +27,5 @@
 
     <string name="input_item_temp_estimate">暂估入账</string>
     <string name="input_item_temp_estimate_description">（未收到发票）</string>
+    <string name="address_sel">选中地址</string>
 </resources>

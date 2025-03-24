@@ -7,6 +7,23 @@
     android:layout_gravity="bottom|center_horizontal"
     tools:context=".MainActivity">
 
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_address"
+        android:text="@string/address_sel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </Button>
+
+    <Button
+        android:text="测试网络"
+        android:id="@+id/btn_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </Button>
+
+
     <com.nightonke.boommenu.BoomMenuButton
         android:id="@+id/fab"
         android:elevation="8dp"
