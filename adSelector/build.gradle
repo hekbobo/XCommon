@@ -1,14 +1,17 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.hekbobo'
 
 android {
     compileSdkVersion 28
+
     defaultConfig {
-        applicationId "com.b.xcommon"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,13 +26,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-//    implementation project(path: ':xutil')
-    implementation project(path: ':boommenu')
-    implementation project(path: ':xutil')
-    implementation project(':adSelector')
-//    implementation project(path: ':boommenu')
-//    implementation 'com.github.hekbobo.xcommon:boommenu:1.1.7'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
 }

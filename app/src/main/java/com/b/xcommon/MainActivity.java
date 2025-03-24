@@ -24,6 +24,10 @@ import com.nightonke.boommenu.OnBoomListenerAdapter;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.nightonke.boommenu.Util;
 import com.shoot.common.AppActivityMgr;
+import com.shoot.common.XToastUtil;
+import com.yingjie.addressselector.api.AdType;
+import com.yingjie.addressselector.api.CYJAdSelector;
+import com.yingjie.addressselector.api.OnSelectorListener;
 
 import java.util.ArrayList;
 
@@ -58,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         initListener(bmb);
+
+        address();
 
         for (int i = 0; i < bmb.getPiecePlaceEnum().pieceNumber(); i++)
             bmb.addBuilder(getTextOutsideCircleButtonBuilder(i));
@@ -177,5 +183,18 @@ public class MainActivity extends AppCompatActivity {
 //        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 //        XFileUtils.getAllFiles(path+ "/android/data/com.tencent.mm/", "pdf");
 //        XFileUtils.getAllFiles(path+ "/android/data/com.tencent.mm/MicroMsg/Download/", "pdf");
+    }
+
+    void address(){
+        new CYJAdSelector().
+                setSelectColor(R.color.colorPrimary).
+                setBottomLineColor(R.color.colorPrimary).
+                build()
+                .showSelector(this, AdType.ADD, "", "", "", new OnSelectorListener() {
+            @Override
+            public void onSelector(String province, String city, String area) {
+                XToastUtil.showShortToast(province+city+area, MainActivity.this);
+            }
+        });
     }
 }
