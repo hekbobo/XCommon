@@ -7,11 +7,6 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.RequiresPermission;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -26,6 +21,12 @@ import android.view.WindowManager;
 import java.lang.reflect.Method;
 
 import static android.Manifest.permission.EXPAND_STATUS_BAR;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.RequiresPermission;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 /**
  * Bar utils
@@ -64,7 +65,7 @@ public final class XStatusBarUtils {
      * @param activity  The activity.
      * @param isVisible True to set status bar visible, false otherwise.
      */
-    public static void setStatusBarVisibility(@NonNull final Activity activity,
+    public static void setStatusBarVisibility( final Activity activity,
                                               final boolean isVisible) {
         setStatusBarVisibility(activity.getWindow(), isVisible);
     }
@@ -75,7 +76,7 @@ public final class XStatusBarUtils {
      * @param window    The window.
      * @param isVisible True to set status bar visible, false otherwise.
      */
-    public static void setStatusBarVisibility(@NonNull final Window window,
+    public static void setStatusBarVisibility( final Window window,
                                               final boolean isVisible) {
         if (isVisible) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -94,7 +95,7 @@ public final class XStatusBarUtils {
      * @param activity The activity.
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isStatusBarVisible(@NonNull final Activity activity) {
+    public static boolean isStatusBarVisible( final Activity activity) {
         int flags = activity.getWindow().getAttributes().flags;
         return (flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == 0;
     }
@@ -105,7 +106,7 @@ public final class XStatusBarUtils {
      * @param activity    The activity.
      * @param isLightMode True to set status bar light mode, false otherwise.
      */
-    public static void setStatusBarLightMode(@NonNull final Activity activity,
+    public static void setStatusBarLightMode( final Activity activity,
                                              final boolean isLightMode) {
         setStatusBarLightMode(activity.getWindow(), isLightMode);
     }
@@ -116,7 +117,7 @@ public final class XStatusBarUtils {
      * @param window      The window.
      * @param isLightMode True to set status bar light mode, false otherwise.
      */
-    public static void setStatusBarLightMode(@NonNull final Window window,
+    public static void setStatusBarLightMode( final Window window,
                                              final boolean isLightMode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = window.getDecorView();
@@ -136,7 +137,7 @@ public final class XStatusBarUtils {
      * @param activity The activity.
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isStatusBarLightMode(@NonNull final Activity activity) {
+    public static boolean isStatusBarLightMode( final Activity activity) {
         return isStatusBarLightMode(activity.getWindow());
     }
 
@@ -146,7 +147,7 @@ public final class XStatusBarUtils {
      * @param window The window.
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isStatusBarLightMode(@NonNull final Window window) {
+    public static boolean isStatusBarLightMode( final Window window) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = window.getDecorView();
             int vis = decorView.getSystemUiVisibility();
@@ -160,7 +161,7 @@ public final class XStatusBarUtils {
      *
      * @param view The view.
      */
-    public static void addMarginTopEqualStatusBarHeight(@NonNull View view) {
+    public static void addMarginTopEqualStatusBarHeight( View view) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return;
         view.setTag(TAG_OFFSET);
         Object haveSetOffset = view.getTag(KEY_OFFSET);
@@ -178,7 +179,7 @@ public final class XStatusBarUtils {
      *
      * @param view The view.
      */
-    public static void subtractMarginTopEqualStatusBarHeight(@NonNull View view) {
+    public static void subtractMarginTopEqualStatusBarHeight( View view) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return;
         Object haveSetOffset = view.getTag(KEY_OFFSET);
         if (haveSetOffset == null || !(Boolean) haveSetOffset) return;
@@ -210,7 +211,7 @@ public final class XStatusBarUtils {
      * @param activity The activity.
      * @param color    The status bar's color.
      */
-    public static View setStatusBarColor(@NonNull final Activity activity,
+    public static View setStatusBarColor( final Activity activity,
                                          @ColorInt final int color) {
         return setStatusBarColor(activity, color, false);
     }

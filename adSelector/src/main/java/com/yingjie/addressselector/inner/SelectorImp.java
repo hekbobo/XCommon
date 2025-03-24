@@ -1,7 +1,8 @@
 package com.yingjie.addressselector.inner;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
+
+import androidx.annotation.ColorInt;
 
 import com.yingjie.addressselector.R;
 import com.yingjie.addressselector.api.OnSelectorListener;

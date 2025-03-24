@@ -1,13 +1,15 @@
 package com.b.xcommon;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonObject;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.shoot.common.AppActivityMgr;
+//import com.shoot.common.XToastUtil;
 import com.shoot.common.XToastUtil;
 import com.yingjie.addressselector.api.AdType;
 import com.yingjie.addressselector.api.CYJAdSelector;

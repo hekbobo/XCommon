@@ -1,7 +1,7 @@
 package com.yingjie.addressselector.api;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
+//import android.support.annotation.ColorInt;
 
 import com.yingjie.addressselector.inner.SelectorFactory;
 

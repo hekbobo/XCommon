@@ -1,9 +1,10 @@
 package com.yingjie.addressselector.core;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by chen.yingjie on 2019/3/23

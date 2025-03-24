@@ -2,10 +2,11 @@ package com.yingjie.addressselector.core;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.ColorInt;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.ColorInt;
 
 import com.yingjie.addressselector.R;
 import com.yingjie.addressselector.api.OnSelectorListener;
