@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private  void testNet() {
         MapBuild map = new MapBuild();
                 map
-                .add("phone", "18666976745")
+                .add("phone", "18666971111")
                 .add("password", "qwert123456")
                 .build();
 
