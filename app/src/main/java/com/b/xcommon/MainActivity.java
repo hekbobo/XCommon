@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_test).setOnClickListener(this);
     }
 
-
-
     void address(){
         new CYJAdSelector().
                 setSelectColor(R.color.colorPrimary).
