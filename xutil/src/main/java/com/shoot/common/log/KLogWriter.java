@@ -163,8 +163,8 @@ public abstract class KLogWriter {
 	 */
 	public static void error(String featureName, String text) {
 		//String module = getClassNameAndMethodName();
-		String message = joinMessage(featureName, text);
-		errorReal(featureName, message);
+//		String message = joinMessage(featureName, text);
+		errorReal(featureName, text);
 	}
 	
 	private static final String KLOG_FILE_NAME = "KLogWrap.java";

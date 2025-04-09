@@ -172,19 +172,17 @@ public class KLogOutput {
                                            String msg, OutputStream os) {
             try {
                 StringBuilder sb = new StringBuilder();
-                sb.append(" [");
+                sb.append(" [ ");
+                sb.append(module);
                 if (level == KLogDef.LEVEL_ERROR) {
-                    sb.append("ERROR");
+                    sb.append(".ERROR");
                 } else if (level == KLogDef.LEVEL_INFO) {
-                    sb.append("INFO");
+                    sb.append(".INFO");
                 } else {
-                    sb.append("DEBUG");
+                    sb.append(".DEBUG");
                 }
                 sb.append(" ] ");
                 sb.append(msg);
-//                sb.append(" [ ");
-//                sb.append(module);
-//                sb.append(" ] ");
                 sb.append("\r");
 
                 byte[] bytes = sb.toString().getBytes(Charset.forName("UTF-8"));
@@ -366,17 +364,17 @@ public class KLogOutput {
 //                if (level >= getLevel()) {
                     StringBuilder sb = new StringBuilder();
                     sb.append(msg);
-                    sb.append(" [ ");
-                    sb.append(module);
-                    sb.append(" ] ");
+//                    sb.append(" [ ");
+//                    sb.append(module);
+//                    sb.append(" ] ");
                     if (level >= KLogDef.LEVEL_ERROR) {
-                        Log.e(".ERROR", sb.toString());
+                        Log.e("[" + module+".ERROR" + "] ", sb.toString());
                     } else if (level >= KLogDef.LEVEL_INFO) {
-                        Log.i(".INFO", sb.toString());
+                        Log.i("[" + module+".INFO" + "] ", sb.toString());
                     } else if (level >= KLogDef.LEVEL_DEBUG) {
-                        Log.d(".DEBUG", sb.toString());
+                        Log.d("[" + module+".DEBUG"  + "] ", sb.toString());
                     }else {
-                        Log.e(".DEBUG", sb.toString());
+                        Log.e("[" + module+".DEBUG"  + "] ", sb.toString());
                     }
 //                }
             }

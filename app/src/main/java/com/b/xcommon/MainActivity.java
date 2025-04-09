@@ -10,7 +10,9 @@ import com.google.gson.JsonObject;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.shoot.common.AppActivityMgr;
 //import com.shoot.common.XToastUtil;
+import com.shoot.common.CommonEnv;
 import com.shoot.common.XToastUtil;
+import com.shoot.common.log.KLogWriter;
 import com.yingjie.addressselector.api.AdType;
 import com.yingjie.addressselector.api.CYJAdSelector;
 import com.yingjie.addressselector.api.OnSelectorListener;
@@ -42,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.btn_address).setOnClickListener(this);
         findViewById(R.id.btn_test).setOnClickListener(this);
+        CommonEnv.attachApplication(getApplicationContext());
+        CommonEnv.setDebug(true);
+        KLogWrap.init(KLockerLogHelper.getInstance(this));
+        KLogWrap.debug(TAG, "debug info....");
+        KLogWrap.error(TAG, "error info ");
+
     }
 
     void address(){

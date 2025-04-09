@@ -42,7 +42,7 @@ public class KLogInput {
 			return;
 		}
 		String dateNowStr = KLogOutput.timeFormat(0);
-		KLogBean bean = new KLogBean(level, tag, dateNowStr + text);
+		KLogBean bean = new KLogBean(level, tag, dateNowStr +" " + text);
 		mBuffer.put(bean);
 	}
 
