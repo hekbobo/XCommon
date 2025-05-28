@@ -19,9 +19,10 @@ public class SelectorImp implements ISelector{
 
     @ColorInt
     int mBottomLineColor;
+    int mSelectLevel;
     @Override
     public void showSelector(Context context, int mType, String province, String city, String area, OnSelectorListener onRegionListener) {
-        PopupU.showRegionView(context, mType, province, city, area, onRegionListener, mSelectColor, mBottomLineColor);
+        PopupU.showRegionView(context, mType, province, city, area, onRegionListener, mSelectColor, mBottomLineColor, mSelectLevel);
     }
 
     @Override
@@ -32,6 +33,11 @@ public class SelectorImp implements ISelector{
     @Override
     public void setBottomLineColor(int color) {
         mBottomLineColor = color;
+    }
+
+    @Override
+    public void setSelectLevel(int level) {
+        mSelectLevel = level;
     }
 
 }

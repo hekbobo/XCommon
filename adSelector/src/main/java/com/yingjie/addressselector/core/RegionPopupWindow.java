@@ -130,7 +130,12 @@ public class RegionPopupWindow extends LinearLayout {
                 tvArea.setText(checkArea);
                 bottomLineArea.setVisibility(VISIBLE);
 
-                mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
+                if (mSelectLevel == 3){
+                    mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
+                }else if (mSelectLevel == 2){
+                    bottomLineCity.setVisibility(VISIBLE);
+                    mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_CITY, checkProvince, checkCity, checkArea);
+                }
 
                 int targetPosition = mRregionAdapter.getAreaPosition(checkProvince, checkCity, checkArea);
                 scrollToPosition(targetPosition);
@@ -263,7 +268,9 @@ public class RegionPopupWindow extends LinearLayout {
                     // 如果选择了省，把已选择市和县/区置空。
                     checkCity = "";
                     checkArea = "";
-
+                    if (mSelectLevel == 1){
+                        onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), replace(checkArea));
+                    }
                 } else if (lastDataType == RegionAdapter.DATA_CITY) {// 点击了 市，该选择县/区
                     newDataType = RegionAdapter.DATA_AREA;
                     checkProvince = checkedProvince;
@@ -284,6 +291,9 @@ public class RegionPopupWindow extends LinearLayout {
 
                     // 如果选择了市，就把已选择县/区置空。
                     checkArea = "";
+                    if (mSelectLevel == 2){
+                        onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), replace(checkArea));
+                    }
                 } else if (lastDataType == RegionAdapter.DATA_AREA){// 点击了 县/区
                     checkProvince = checkedProvince;
                     checkCity = checkedCity;
@@ -331,6 +341,12 @@ public class RegionPopupWindow extends LinearLayout {
     }
     int mSelectColor =  R.color.ff5000;
     int mBottomLineColor =  R.color.ff5000;
+    int mSelectLevel = 3;
+
+    public void setSelectLevel(int mSelectLevel) {
+        this.mSelectLevel = mSelectLevel;
+    }
+
     public void setColor(int color) {
         mSelectColor = color;
     }

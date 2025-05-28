@@ -33,4 +33,10 @@ public class SelectorFactory {
         iSelector.setBottomLineColor(color);
         return this;
     }
+
+
+    public SelectorFactory setSelectLevel(int level) {
+        iSelector.setSelectLevel(level);
+        return this;
+    }
 }

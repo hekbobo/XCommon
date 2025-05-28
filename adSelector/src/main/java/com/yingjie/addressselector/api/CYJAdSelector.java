@@ -15,11 +15,14 @@ public class CYJAdSelector {
         SelectorFactory.get()
                 .setColor(mSelectColor)
                 .setBottomLineColor(mBottomLineColor)
+                .setSelectLevel(mSelectLevel)
                 .create()
                 .showSelector(context, mType, province, city, area, onSelectorListener);
     }
     int mSelectColor;
     int mBottomLineColor;
+    int mSelectLevel;
+
 
     public CYJAdSelector setSelectColor(int color) {
         mSelectColor = color;
@@ -28,6 +31,11 @@ public class CYJAdSelector {
 
     public CYJAdSelector setBottomLineColor(int color) {
         mBottomLineColor = color;
+        return this;
+    }
+
+    public CYJAdSelector setSelectLevel(int level) {
+        mSelectLevel = level;
         return this;
     }
 

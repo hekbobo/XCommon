@@ -16,4 +16,6 @@ public interface ISelector {
     public void setColor(int color);
 
     public void setBottomLineColor(int color);
+    public void setSelectLevel(int level);
+
 }

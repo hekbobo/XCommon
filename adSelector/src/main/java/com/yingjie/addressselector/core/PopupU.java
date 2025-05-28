@@ -37,7 +37,7 @@ public class PopupU {
                                         @ColorInt
                                         int selectColor,
                                         @ColorInt
-                                        int bottomLineColor) {
+                                        int bottomLineColor, int level) {
         final Dialog dialog = new Dialog(context, R.style.DialogCommonStyle);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.BOTTOM);
@@ -46,6 +46,7 @@ public class PopupU {
         // 设置历史记录
         regionPopupWindow.setHistory(mType, province, city, area);
         regionPopupWindow.setColor(selectColor);
+        regionPopupWindow.setSelectLevel(level);
         regionPopupWindow.setBottomLineColor(bottomLineColor);
 
         // 设置右上角叉号监听

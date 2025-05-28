@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new CYJAdSelector().
                 setSelectColor(R.color.colorPrimary).
                 setBottomLineColor(R.color.colorPrimary).
+                setSelectLevel(2).
                 build()
                 .showSelector(this, AdType.ADD, "", "", "", new OnSelectorListener() {
                     @Override
