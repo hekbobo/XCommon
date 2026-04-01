@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yingjie.addressselector.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,21 +19,16 @@ import java.util.List;
  */
 public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder> {
 
-    public static final int DATA_PROVINCE = 1;// 选择省
-    public static final int DATA_CITY = 2;// 选择市
-    public static final int DATA_AREA = 3;// 选择县/区
+    public static final int DATA_PROVINCE = 1; // 选择省
+    public static final int DATA_CITY = 2; // 选择市
+    public static final int DATA_AREA = 3; // 选择县/区
 
     private List<RegionBean> provinceDatas; // 总（省)数据
     private Context mContext;
-    // 显示数据类型
     private int dataType;
-    // 选中的省item的position
     private int positionProvince;
-    // 选中的市item的position
     private int positionCity;
-    // 选中的县/区item的position
     private int positionArea;
-    // 记录选择状态
     private List<Boolean> isCheckedP;
     private List<Boolean> isCheckedC;
     private List<Boolean> isCheckedA;
@@ -42,7 +37,10 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
     private String checkedCity;
     private String checkedArea;
 
-    private int mSelectColor  = R.color.ff5000;
+    private int mSelectColor = R.color.ff5000;
+    private int mBackgroundColor = R.color.white;
+    private int mNormalTextColor = R.color.v666666;
+    private int mDividerColor = R.color.veeeeee;
 
     private OnItemCheckedListener onItemCheckedListener;
 
@@ -53,19 +51,22 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
         isCheckedA = new ArrayList<>();
     }
 
-    public void setSelectColor(int color){
+    public void setSelectColor(int color) {
         mSelectColor = color;
     }
 
-    /**
-     * 刷新
-     *
-     * @param provinceDatas 数据集
-     * @param dataType      应该选择(显示)    省：DATA_PROVINCE 市：DATA_CITY 县/区：DATA_AREA
-     * @param checkedProvince      已选择省
-     * @param checkedCity          已选择市
-     * @param checkedArea          已选择县/区
-     */
+    public void setBackgroundColor(int color) {
+        mBackgroundColor = color;
+    }
+
+    public void setNormalTextColor(int color) {
+        mNormalTextColor = color;
+    }
+
+    public void setDividerColor(int color) {
+        mDividerColor = color;
+    }
+
     public void refreshData(List<RegionBean> provinceDatas, int dataType, String checkedProvince, String checkedCity, String checkedArea) {
         this.provinceDatas = provinceDatas;
         this.dataType = dataType;
@@ -73,7 +74,7 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
         this.positionProvince = getProvincePisition(checkedProvince);
         this.positionCity = getCityPosition(checkedProvince, checkedCity);
         this.positionArea = getAreaPosition(checkedProvince, checkedCity, checkedArea);
-        // 初始化选中状态false
+
         if (dataType == DATA_PROVINCE) {
             isCheckedP.clear();
             if (provinceDatas == null) {
@@ -99,7 +100,7 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
             if (positionCity != -1) {
                 isCheckedC.set(positionCity, true);
             }
-        } else if (dataType == DATA_AREA){
+        } else if (dataType == DATA_AREA) {
             isCheckedA.clear();
             if (provinceDatas == null ||
                     positionProvince == -1 ||
@@ -114,7 +115,7 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
                 isCheckedA.add(false);
             }
             if (positionArea != -1) {
-                isCheckedA.set(positionArea, true);// 已选中
+                isCheckedA.set(positionArea, true);
             }
         }
         notifyDataSetChanged();
@@ -127,14 +128,12 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder( final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         List<Boolean> isChecked = new ArrayList<>();
 
-        // 显示数据，把当前position设置为tag
         if (dataType == DATA_PROVINCE) {
             isChecked = isCheckedP;
-            if (provinceDatas == null ||
-                    provinceDatas.get(holder.getAdapterPosition()) == null) {
+            if (provinceDatas == null || provinceDatas.get(holder.getAdapterPosition()) == null) {
                 return;
             }
             holder.tvName.setText(provinceDatas.get(holder.getAdapterPosition()).provinceName);
@@ -162,32 +161,32 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
             }
             holder.tvName.setText(provinceDatas.get(positionProvince).citys.get(positionCity).areas.get(holder.getAdapterPosition()).areaName);
         }
-        // 根据选中状态更新UI
+
+        holder.itemView.setBackgroundColor(mBackgroundColor);
+        holder.divider.setBackgroundColor(mDividerColor);
+
         if (isChecked.get(holder.getAdapterPosition())) {
-            holder.tvName.setTextColor(mContext.getResources().getColor(mSelectColor));
+            holder.tvName.setTextColor(mSelectColor);
             holder.tvSelected.setVisibility(View.VISIBLE);
         } else {
-            holder.tvName.setTextColor(mContext.getResources().getColor(R.color.v666666));
+            holder.tvName.setTextColor(mNormalTextColor);
             holder.tvSelected.setVisibility(View.GONE);
         }
+
         if (onItemCheckedListener != null) {
             final List<Boolean> finalIsChecked = isChecked;
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // 1、所有值重置为false
                     for (int i = 0; i < finalIsChecked.size(); i++) {
                         finalIsChecked.set(i, false);
                     }
-                    // 2、当前点击的设置为true
                     finalIsChecked.set(holder.getAdapterPosition(), true);
-                    // 3、更新
                     notifyDataSetChanged();
 
                     if (dataType == DATA_PROVINCE) {
                         checkedProvince = holder.tvName.getText().toString();
                     } else if (dataType == DATA_CITY) {
-                        // 这里不能只给checkedCity赋值，checkedProvince容易为空，在refresh中赋值。
                         checkedCity = holder.tvName.getText().toString();
                     } else {
                         checkedArea = holder.tvName.getText().toString();
@@ -212,7 +211,7 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
                     provinceDatas.get(positionProvince).citys != null) {
                 size = provinceDatas.get(positionProvince).citys.size();
             }
-        } else { // dataType == DATA_AREA 选择县/区前和后都展示同样的数据
+        } else {
             if (provinceDatas != null &&
                     positionProvince != -1 &&
                     positionCity != -1 &&
@@ -227,26 +226,21 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView tvName;
         TextView tvSelected;
+        View divider;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             tvSelected = itemView.findViewById(R.id.tvSelected);
+            divider = itemView.findViewById(R.id.itemDivider);
         }
     }
 
-    /**
-     * 获取已选省position
-     *
-     * @param province
-     * @return
-     */
     public int getProvincePisition(String province) {
         if (provinceDatas != null && !TextUtils.isEmpty(province)) {
-            for (int p=0; p<provinceDatas.size(); p++) {
+            for (int p = 0; p < provinceDatas.size(); p++) {
                 if (provinceDatas.get(p).provinceName.equals(province)) {
                     return p;
                 }
@@ -255,26 +249,15 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
         return -1;
     }
 
-    /**
-     * 获取city的position
-     *
-     * @param province
-     * @param city
-     * @return
-     */
     public int getCityPosition(String province, String city) {
-        if (!TextUtils.isEmpty(province) && !TextUtils.isEmpty(city)) {
-            if (provinceDatas != null) {
-                for (int p=0; p<provinceDatas.size(); p++) {
-                    if (provinceDatas.get(p).provinceName.equals(province)) {// 找到province的position
-                        if (provinceDatas.get(p) != null && provinceDatas.get(p).citys != null) {
-                            for (int c=0; c<provinceDatas.get(p).citys.size(); c++) {
-                                if (provinceDatas.get(p).citys.get(c).cityName.equals(city)) {
-                                    return c;
-                                }
-                            }
-                        }
-                    }
+        if (provinceDatas != null && !TextUtils.isEmpty(province) && !TextUtils.isEmpty(city)) {
+            int p = getProvincePisition(province);
+            if (p == -1) {
+                return -1;
+            }
+            for (int c = 0; c < provinceDatas.get(p).citys.size(); c++) {
+                if (provinceDatas.get(p).citys.get(c).cityName.equals(city)) {
+                    return c;
                 }
             }
         }
@@ -282,35 +265,29 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
     }
 
     public int getAreaPosition(String province, String city, String area) {
-        if (!TextUtils.isEmpty(province) && !TextUtils.isEmpty(city)) {
-            if (provinceDatas != null) {
-                for (int p=0; p<provinceDatas.size(); p++) {
-                    if (provinceDatas.get(p).provinceName.equals(province)) {// 找到province的position
-                        if (provinceDatas.get(p) != null && provinceDatas.get(p).citys != null) {
-                            for (int c=0; c<provinceDatas.get(p).citys.size(); c++) {
-                                if (provinceDatas.get(p).citys.get(c).cityName.equals(city)) {
-                                    if (provinceDatas.get(p).citys.get(c) != null && provinceDatas.get(p).citys.get(c).areas != null) {
-                                        for (int a=0; a<provinceDatas.get(p).citys.get(c).areas.size(); a++) {
-                                            if (provinceDatas.get(p).citys.get(c).areas.get(a).areaName.equals(area)) {
-                                                return a;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+        if (provinceDatas != null && !TextUtils.isEmpty(province) && !TextUtils.isEmpty(city) && !TextUtils.isEmpty(area)) {
+            int p = getProvincePisition(province);
+            if (p == -1) {
+                return -1;
+            }
+            int c = getCityPosition(province, city);
+            if (c == -1) {
+                return -1;
+            }
+            for (int a = 0; a < provinceDatas.get(p).citys.get(c).areas.size(); a++) {
+                if (provinceDatas.get(p).citys.get(c).areas.get(a).areaName.equals(area)) {
+                    return a;
                 }
             }
         }
         return -1;
     }
 
-    public void setOnItemCheckedListener(OnItemCheckedListener onItemCheckedListener) {
-        this.onItemCheckedListener = onItemCheckedListener;
-    }
-
     public interface OnItemCheckedListener {
         void onItemChecked(int lastDataType, String checkedProvince, String checkedCity, String checkedArea);
+    }
+
+    public void setOnItemCheckedListener(OnItemCheckedListener onItemCheckedListener) {
+        this.onItemCheckedListener = onItemCheckedListener;
     }
 }

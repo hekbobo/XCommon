@@ -53,11 +53,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void address(){
-        new CYJAdSelector().
-                setSelectColor(R.color.colorPrimary).
-                setBottomLineColor(R.color.colorPrimary).
-                setSelectLevel(2).
-                build()
+        new CYJAdSelector()
+//                .setSelectColor(R.color.colorAccent)
+//                .setBottomLineColor(R.color.colorPrimary)
+//                .setBackgroundColor(R.color.color_bg_base)
+//                .setNormalTextColor(R.color.color_text_base)
+//                .setTitleTextColor(R.color.color_text_base)
+//                .setDividerColor(R.color.colorPrimary)
+                .setSelectLevel(2)
+                .build()
                 .showSelector(this, AdType.ADD, "", "", "", new OnSelectorListener() {
                     @Override
                     public void onSelector(String province, String city, String area) {

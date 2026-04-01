@@ -1,8 +1,6 @@
 package com.yingjie.addressselector.core;
 
 import android.content.Context;
-
-
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yingjie.addressselector.R;
-
 import com.yingjie.addressselector.api.AdType;
 
 import java.util.List;
@@ -26,7 +23,11 @@ import java.util.List;
  */
 public class RegionPopupWindow extends LinearLayout {
 
-    FrameLayout flFork;// 叉
+    FrameLayout flFork;
+    View titleBar;
+    View titleDivider;
+    View headerDivider;
+    TextView tvTitle;
     TextView tvProvince;
     TextView tvCity;
     TextView tvArea;
@@ -46,6 +47,14 @@ public class RegionPopupWindow extends LinearLayout {
     private String checkCity;
     private String checkArea;
 
+    private int mSelectColor = R.color.ff5000;
+    private int mBottomLineColor = R.color.ff5000;
+    private int mSelectLevel = 3;
+    private int mBackgroundColor = R.color.white;
+    private int mNormalTextColor = R.color.v666666;
+    private int mTitleTextColor = R.color.v333333;
+    private int mDividerColor = R.color.veeeeee;
+
     public RegionPopupWindow(Context context) {
         this(context, null);
     }
@@ -57,7 +66,6 @@ public class RegionPopupWindow extends LinearLayout {
     public RegionPopupWindow(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.region_popupwindow, this, true);
-        setBackgroundResource(R.color.white);
     }
 
     @Override
@@ -76,35 +84,39 @@ public class RegionPopupWindow extends LinearLayout {
     private void initView() {
         provinceDatas = GsonU.getJsonData(getContext());
 
-        bottomLineProvince.setBackgroundColor(getResources().getColor(mBottomLineColor));
-        bottomLineArea.setBackgroundColor(getResources().getColor(mBottomLineColor));
-        bottomLineCity.setBackgroundColor(getResources().getColor(mBottomLineColor));
-        mRregionAdapter.setSelectColor(mSelectColor);
+        super.setBackgroundColor(mBackgroundColor);
+        titleBar.setBackgroundColor(mBackgroundColor);
+        tvTitle.setTextColor(mTitleTextColor);
+        titleDivider.setBackgroundColor(mDividerColor);
+        headerDivider.setBackgroundColor(mDividerColor);
 
-        if (mType == AdType.EDIT) {// 编辑模式
-            // 省显示黑色选定值，底线隐藏
-            tvProvince.setTextColor(getContext().getResources().getColor(R.color.v333333));
+        bottomLineProvince.setBackgroundColor(mBottomLineColor);
+        bottomLineArea.setBackgroundColor(mBottomLineColor);
+        bottomLineCity.setBackgroundColor(mBottomLineColor);
+        mRregionAdapter.setSelectColor(mSelectColor);
+        mRregionAdapter.setBackgroundColor(mBackgroundColor);
+        mRregionAdapter.setNormalTextColor(mNormalTextColor);
+        mRregionAdapter.setDividerColor(mDividerColor);
+
+        if (mType == AdType.EDIT) {
+            tvProvince.setTextColor(mNormalTextColor);
             tvProvince.setText(checkProvince);
             bottomLineProvince.setVisibility(GONE);
-            // 市显示红色"请选择"， 底线显示
-            tvCity.setTextColor(getContext().getResources().getColor(R.color.v333333));
+
+            tvCity.setTextColor(mNormalTextColor);
             tvCity.setText(checkCity);
             bottomLineCity.setVisibility(GONE);
-            // 县/区不显示，底线隐藏
+
             tvArea.setText(checkArea);
-            tvArea.setTextColor(getContext().getResources().getColor(mSelectColor));
+            tvArea.setTextColor(mSelectColor);
             bottomLineArea.setVisibility(VISIBLE);
 
             mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
-
-            // 定位到已选项
             int targetPosition = mRregionAdapter.getAreaPosition(checkProvince, checkCity, checkArea);
             scrollToPosition(targetPosition);
         } else if (mType == AdType.ADD) {
-            //  第一次进来，没有选择地址。
             if (TextUtils.isEmpty(checkProvince) && TextUtils.isEmpty(checkCity) && TextUtils.isEmpty(checkArea)) {
-                // 初始状态
-                tvProvince.setTextColor(getContext().getResources().getColor(mSelectColor));
+                tvProvince.setTextColor(mSelectColor);
                 tvProvince.setText("请选择");
                 bottomLineProvince.setVisibility(VISIBLE);
 
@@ -115,24 +127,22 @@ public class RegionPopupWindow extends LinearLayout {
                 bottomLineArea.setVisibility(GONE);
 
                 mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_PROVINCE, checkProvince, checkCity, checkArea);
-            } else {//  选择过地址，再次选择。
-                tvProvince.setTextColor(getContext().getResources().getColor(R.color.v333333));
+            } else {
+                tvProvince.setTextColor(mNormalTextColor);
                 tvProvince.setText(checkProvince);
                 bottomLineProvince.setVisibility(GONE);
 
-                // 市显示红色"请选择"， 底线显示
-                tvCity.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                tvCity.setTextColor(mNormalTextColor);
                 tvCity.setText(checkCity);
                 bottomLineCity.setVisibility(GONE);
 
-                // 县/区不显示，底线隐藏
-                tvArea.setTextColor(getContext().getResources().getColor(mSelectColor));
+                tvArea.setTextColor(mSelectColor);
                 tvArea.setText(checkArea);
                 bottomLineArea.setVisibility(VISIBLE);
 
-                if (mSelectLevel == 3){
+                if (mSelectLevel == 3) {
                     mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
-                }else if (mSelectLevel == 2){
+                } else if (mSelectLevel == 2) {
                     bottomLineCity.setVisibility(VISIBLE);
                     mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_CITY, checkProvince, checkCity, checkArea);
                 }
@@ -145,6 +155,10 @@ public class RegionPopupWindow extends LinearLayout {
 
     private void findViews() {
         flFork = findViewById(R.id.flFork);
+        titleBar = findViewById(R.id.titleBar);
+        titleDivider = findViewById(R.id.titleDivider);
+        headerDivider = findViewById(R.id.headerDivider);
+        tvTitle = findViewById(R.id.tvTitle);
         tvProvince = findViewById(R.id.tvProvince);
         tvCity = findViewById(R.id.tvCity);
         tvArea = findViewById(R.id.tvArea);
@@ -154,85 +168,67 @@ public class RegionPopupWindow extends LinearLayout {
         recycleView = findViewById(R.id.recycleView);
 
         recycleManager = new LinearLayoutManager(getContext());
-        mRregionAdapter= new RegionAdapter(getContext());
+        mRregionAdapter = new RegionAdapter(getContext());
         recycleView.setLayoutManager(recycleManager);
         recycleView.setAdapter(mRregionAdapter);
         mRregionAdapter.setSelectColor(mSelectColor);
     }
 
     private void bindListeners() {
-        // 点击省
         tvProvince.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 省显示黑色选定值，底线隐藏
-                tvProvince.setTextColor(getContext().getResources().getColor(mSelectColor));
+                tvProvince.setTextColor(mSelectColor);
                 bottomLineProvince.setVisibility(VISIBLE);
 
-                // 市显示红色"请选择"， 底线显示
-                tvCity.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                tvCity.setTextColor(mNormalTextColor);
                 bottomLineCity.setVisibility(GONE);
 
-                // 县/区不显示，底线隐藏
-                tvArea.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                tvArea.setTextColor(mNormalTextColor);
                 bottomLineArea.setVisibility(GONE);
 
                 mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_PROVINCE, checkProvince, checkCity, checkArea);
-
-                // 定位到已选项
                 int targetPosition = mRregionAdapter.getProvincePisition(checkProvince);
                 scrollToPosition(targetPosition);
             }
         });
 
-        // 点击市
         tvCity.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 省显示黑色选定值，底线隐藏
-                tvProvince.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                tvProvince.setTextColor(mNormalTextColor);
                 bottomLineProvince.setVisibility(GONE);
 
-                // 市显示红色"请选择"， 底线显示
-                tvCity.setTextColor(getContext().getResources().getColor(mSelectColor));
+                tvCity.setTextColor(mSelectColor);
                 bottomLineCity.setVisibility(VISIBLE);
 
-                // 县/区不显示，底线隐藏
-                tvArea.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                tvArea.setTextColor(mNormalTextColor);
                 bottomLineArea.setVisibility(GONE);
 
                 mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_CITY, checkProvince, checkCity, checkArea);
-
-                // 定位到已选项
                 int targetPosition = mRregionAdapter.getCityPosition(checkProvince, checkCity);
                 scrollToPosition(targetPosition);
             }
         });
 
-        // 点击县/区
         tvArea.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvProvince.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                tvProvince.setTextColor(mNormalTextColor);
                 bottomLineProvince.setVisibility(GONE);
 
-                // 市显示红色"请选择"， 底线显示
-                tvCity.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                tvCity.setTextColor(mNormalTextColor);
                 bottomLineCity.setVisibility(GONE);
 
-                // 县/区不显示，底线隐藏
-                tvArea.setTextColor(getContext().getResources().getColor(mSelectColor));
+                tvArea.setTextColor(mSelectColor);
                 bottomLineArea.setVisibility(VISIBLE);
 
                 mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
-
-                // 定位到已选项
                 int targetPosition = mRregionAdapter.getAreaPosition(checkProvince, checkCity, checkArea);
                 scrollToPosition(targetPosition);
             }
         });
 
-        // 点击❌
         flFork.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,68 +240,52 @@ public class RegionPopupWindow extends LinearLayout {
             @Override
             public void onItemChecked(int lastDataType, String checkedProvince, String checkedCity, String checkedArea) {
                 int newDataType = 0;
-                // 根据上次点击的类型 赋予新值。
-                if (lastDataType == RegionAdapter.DATA_PROVINCE) {// 点击了 省，该选择市
+                if (lastDataType == RegionAdapter.DATA_PROVINCE) {
                     newDataType = RegionAdapter.DATA_CITY;
                     checkProvince = checkedProvince;
                     checkCity = checkedCity;
                     checkArea = checkedArea;
 
-                    // 省显示黑色选定值，底线隐藏
-                    tvProvince.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                    tvProvince.setTextColor(mNormalTextColor);
                     tvProvince.setText(checkProvince);
                     bottomLineProvince.setVisibility(GONE);
 
-                    // 市显示红色"请选择"， 底线显示
-                    tvCity.setTextColor(getContext().getResources().getColor(mSelectColor));
+                    tvCity.setTextColor(mSelectColor);
                     tvCity.setText("请选择");
                     bottomLineCity.setVisibility(VISIBLE);
 
-                    // 县/区不显示，底线隐藏
                     tvArea.setText(checkArea);
                     bottomLineArea.setVisibility(GONE);
 
-                    // 如果选择了省，把已选择市和县/区置空。
                     checkCity = "";
                     checkArea = "";
-                    if (mSelectLevel == 1){
+                    if (mSelectLevel == 1) {
                         onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), replace(checkArea));
                     }
-                } else if (lastDataType == RegionAdapter.DATA_CITY) {// 点击了 市，该选择县/区
+                } else if (lastDataType == RegionAdapter.DATA_CITY) {
                     newDataType = RegionAdapter.DATA_AREA;
                     checkProvince = checkedProvince;
                     checkCity = checkedCity;
                     checkArea = checkedArea;
 
-                    // 省显示黑色选定值，底线隐藏
-
-                    // 市显示黑色选定值，底线隐藏
-                    tvCity.setTextColor(getContext().getResources().getColor(R.color.v333333));
+                    tvCity.setTextColor(mNormalTextColor);
                     tvCity.setText(checkCity);
                     bottomLineCity.setVisibility(GONE);
 
-                    // 县/区显示红色"请选择，底线显示
                     tvArea.setText("请选择");
-                    tvArea.setTextColor(getContext().getResources().getColor(mSelectColor));
+                    tvArea.setTextColor(mSelectColor);
                     bottomLineArea.setVisibility(VISIBLE);
 
-                    // 如果选择了市，就把已选择县/区置空。
                     checkArea = "";
-                    if (mSelectLevel == 2){
+                    if (mSelectLevel == 2) {
                         onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), replace(checkArea));
                     }
-                } else if (lastDataType == RegionAdapter.DATA_AREA){// 点击了 县/区
+                } else if (lastDataType == RegionAdapter.DATA_AREA) {
                     checkProvince = checkedProvince;
                     checkCity = checkedCity;
                     checkArea = checkedArea;
 
-                    // 省显示黑色选定值，底线隐藏
-
-                    // 市显示黑色选定值，底线隐藏
-
-                    // 县/区显示红色选定值，底线显示
                     tvArea.setText(checkArea);
-                    // 回传
                     if (TextUtils.isEmpty(checkProvince)) {
                         checkProvince = tvProvince.getText().toString();
                     }
@@ -331,17 +311,12 @@ public class RegionPopupWindow extends LinearLayout {
         }
     }
 
-    // "请选择"用""代替
     private String replace(String text) {
-        String newText = "";
         if (text.equals("请选择")) {
-            return newText;
+            return "";
         }
         return text;
     }
-    int mSelectColor =  R.color.ff5000;
-    int mBottomLineColor =  R.color.ff5000;
-    int mSelectLevel = 3;
 
     public void setSelectLevel(int mSelectLevel) {
         this.mSelectLevel = mSelectLevel;
@@ -353,6 +328,35 @@ public class RegionPopupWindow extends LinearLayout {
 
     public void setBottomLineColor(int color) {
         mBottomLineColor = color;
+    }
+
+    public void setBackgroundColor(int color) {
+        mBackgroundColor = color;
+        super.setBackgroundColor(color);
+    }
+
+    public void setNormalTextColor(int color) {
+        mNormalTextColor = color;
+    }
+
+    public void setTitleTextColor(int color) {
+        mTitleTextColor = color;
+        if (tvTitle != null) {
+            tvTitle.setTextColor(color);
+        }
+    }
+
+    public void setDividerColor(int color) {
+        mDividerColor = color;
+        if (titleDivider != null) {
+            titleDivider.setBackgroundColor(color);
+        }
+        if (headerDivider != null) {
+            headerDivider.setBackgroundColor(color);
+        }
+        if (mRregionAdapter != null) {
+            mRregionAdapter.setDividerColor(color);
+        }
     }
 
     public void setHistory(int mType, String province, String city, String area) {
@@ -370,12 +374,10 @@ public class RegionPopupWindow extends LinearLayout {
         this.onRpwItemClickListener = onRpwItemClickListener;
     }
 
-    // 叉点击回调
     public interface OnForkClickListener {
         void onForkClick();
     }
 
-    // 城市/县/区列表item点击回调
     public interface OnRpwItemClickListener {
         void onRpwItemClick(String selectedProvince, String selectedCity, String selectedArea);
     }

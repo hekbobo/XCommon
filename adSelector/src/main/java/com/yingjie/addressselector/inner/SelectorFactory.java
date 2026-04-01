@@ -1,7 +1,5 @@
 package com.yingjie.addressselector.inner;
 
-import com.yingjie.addressselector.api.CYJAdSelector;
-
 /**
  * create by chenyingjie on 2020/6/10
  * desc
@@ -34,9 +32,28 @@ public class SelectorFactory {
         return this;
     }
 
-
     public SelectorFactory setSelectLevel(int level) {
         iSelector.setSelectLevel(level);
+        return this;
+    }
+
+    public SelectorFactory setBackgroundColor(int color) {
+        iSelector.setBackgroundColor(color);
+        return this;
+    }
+
+    public SelectorFactory setNormalTextColor(int color) {
+        iSelector.setNormalTextColor(color);
+        return this;
+    }
+
+    public SelectorFactory setTitleTextColor(int color) {
+        iSelector.setTitleTextColor(color);
+        return this;
+    }
+
+    public SelectorFactory setDividerColor(int color) {
+        iSelector.setDividerColor(color);
         return this;
     }
 }
