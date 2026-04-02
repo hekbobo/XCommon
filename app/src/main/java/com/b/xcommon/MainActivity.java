@@ -54,15 +54,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     void address(){
         new CYJAdSelector()
-//                .setSelectColor(R.color.colorAccent)
-//                .setBottomLineColor(R.color.colorPrimary)
-//                .setBackgroundColor(R.color.color_bg_base)
-//                .setNormalTextColor(R.color.color_text_base)
-//                .setTitleTextColor(R.color.color_text_base)
-//                .setDividerColor(R.color.colorPrimary)
+                .setSelectColor(R.color.colorAccent)
+                .setBottomLineColor(R.color.colorPrimary)
+                .setBackgroundColor(R.color.color_bg_base)
+                .setNormalTextColor(R.color.color_text_base)
+                .setTitleTextColor(R.color.color_text_base)
+                .setDividerColor(R.color.color_list_divider)
                 .setSelectLevel(2)
                 .build()
-                .showSelector(this, AdType.ADD, "", "", "", new OnSelectorListener() {
+                .showSelector(this, AdType.ADD, "广东", "珠海", "", new OnSelectorListener() {
                     @Override
                     public void onSelector(String province, String city, String area) {
                         XToastUtil.showShortToast(province+city+area, MainActivity.this);
@@ -154,3 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return jsonArray.toString();
     }
 }
+
+
+
+

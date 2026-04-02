@@ -1,14 +1,17 @@
 package com.yingjie.addressselector.core;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,18 +45,25 @@ public class RegionPopupWindow extends LinearLayout {
     private RegionAdapter mRregionAdapter;
     private List<RegionBean> provinceDatas;
     private LinearLayoutManager recycleManager;
+    private RegionDividerDecoration dividerDecoration;
     private int mType;
     private String checkProvince;
     private String checkCity;
     private String checkArea;
 
-    private int mSelectColor = R.color.ff5000;
-    private int mBottomLineColor = R.color.ff5000;
+    @ColorInt
+    private int mSelectColor = Color.parseColor("#ff5000");
+    @ColorInt
+    private int mBottomLineColor = Color.parseColor("#ff5000");
     private int mSelectLevel = 3;
-    private int mBackgroundColor = R.color.white;
-    private int mNormalTextColor = R.color.v666666;
-    private int mTitleTextColor = R.color.v333333;
-    private int mDividerColor = R.color.veeeeee;
+    @ColorInt
+    private int mBackgroundColor = Color.WHITE;
+    @ColorInt
+    private int mNormalTextColor = Color.parseColor("#666666");
+    @ColorInt
+    private int mTitleTextColor = Color.parseColor("#333333");
+    @ColorInt
+    private int mDividerColor = Color.parseColor("#eeeeee");
 
     public RegionPopupWindow(Context context) {
         this(context, null);
@@ -91,12 +101,20 @@ public class RegionPopupWindow extends LinearLayout {
         headerDivider.setBackgroundColor(mDividerColor);
 
         bottomLineProvince.setBackgroundColor(mBottomLineColor);
-        bottomLineArea.setBackgroundColor(mBottomLineColor);
         bottomLineCity.setBackgroundColor(mBottomLineColor);
+        bottomLineArea.setBackgroundColor(mBottomLineColor);
         mRregionAdapter.setSelectColor(mSelectColor);
         mRregionAdapter.setBackgroundColor(mBackgroundColor);
         mRregionAdapter.setNormalTextColor(mNormalTextColor);
         mRregionAdapter.setDividerColor(mDividerColor);
+        dividerDecoration.setColor(mDividerColor);
+
+        if (mSelectLevel == 2) {
+            tvArea.setVisibility(GONE);
+            bottomLineArea.setVisibility(GONE);
+        } else {
+            tvArea.setVisibility(VISIBLE);
+        }
 
         if (mType == AdType.EDIT) {
             tvProvince.setTextColor(mNormalTextColor);
@@ -105,14 +123,23 @@ public class RegionPopupWindow extends LinearLayout {
 
             tvCity.setTextColor(mNormalTextColor);
             tvCity.setText(checkCity);
-            bottomLineCity.setVisibility(GONE);
+            bottomLineCity.setVisibility(mSelectLevel == 2 ? VISIBLE : GONE);
 
-            tvArea.setText(checkArea);
-            tvArea.setTextColor(mSelectColor);
-            bottomLineArea.setVisibility(VISIBLE);
+            if (mSelectLevel == 2) {
+                tvArea.setText("");
+                tvArea.setVisibility(GONE);
+                bottomLineArea.setVisibility(GONE);
+                mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_CITY, checkProvince, checkCity, checkArea);
+            } else {
+                tvArea.setText(checkArea);
+                tvArea.setTextColor(mSelectColor);
+                bottomLineArea.setVisibility(VISIBLE);
+                mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
+            }
 
-            mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
-            int targetPosition = mRregionAdapter.getAreaPosition(checkProvince, checkCity, checkArea);
+            int targetPosition = mSelectLevel == 2
+                    ? mRregionAdapter.getCityPosition(checkProvince, checkCity)
+                    : mRregionAdapter.getAreaPosition(checkProvince, checkCity, checkArea);
             scrollToPosition(targetPosition);
         } else if (mType == AdType.ADD) {
             if (TextUtils.isEmpty(checkProvince) && TextUtils.isEmpty(checkCity) && TextUtils.isEmpty(checkArea)) {
@@ -123,33 +150,47 @@ public class RegionPopupWindow extends LinearLayout {
                 tvCity.setText("");
                 bottomLineCity.setVisibility(GONE);
 
-                tvArea.setText("");
-                bottomLineArea.setVisibility(GONE);
-
-                mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_PROVINCE, checkProvince, checkCity, checkArea);
+                if (mSelectLevel == 2) {
+                    tvArea.setText("");
+                    tvArea.setVisibility(GONE);
+                    bottomLineArea.setVisibility(GONE);
+                    mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_PROVINCE, checkProvince, checkCity, checkArea);
+                } else {
+                    tvArea.setText("");
+                    bottomLineArea.setVisibility(GONE);
+                    mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_PROVINCE, checkProvince, checkCity, checkArea);
+                }
             } else {
-                tvProvince.setTextColor(mNormalTextColor);
+                tvProvince.setTextColor(mSelectColor);
                 tvProvince.setText(checkProvince);
                 bottomLineProvince.setVisibility(GONE);
 
-                tvCity.setTextColor(mNormalTextColor);
+                tvCity.setTextColor(mSelectColor);
                 tvCity.setText(checkCity);
-                bottomLineCity.setVisibility(GONE);
+                bottomLineCity.setVisibility(mSelectLevel == 2 ? VISIBLE : GONE);
 
-                tvArea.setTextColor(mSelectColor);
-                tvArea.setText(checkArea);
-                bottomLineArea.setVisibility(VISIBLE);
-
-                if (mSelectLevel == 3) {
-                    mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
-                } else if (mSelectLevel == 2) {
-                    bottomLineCity.setVisibility(VISIBLE);
+                if (mSelectLevel == 2) {
+                    tvArea.setText("");
+                    tvArea.setVisibility(GONE);
+                    bottomLineArea.setVisibility(GONE);
                     mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_CITY, checkProvince, checkCity, checkArea);
+                } else {
+                    if (TextUtils.isEmpty(checkArea)) {
+                        tvArea.setText("请选择");
+                    } else {
+                        tvArea.setText(checkArea);
+                    }
+                    tvArea.setTextColor(mSelectColor);
+                    tvArea.setVisibility(VISIBLE);
+                    bottomLineArea.setVisibility(VISIBLE);
+                    mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_AREA, checkProvince, checkCity, checkArea);
                 }
-
-                int targetPosition = mRregionAdapter.getAreaPosition(checkProvince, checkCity, checkArea);
-                scrollToPosition(targetPosition);
             }
+
+            int targetPosition = mSelectLevel == 2
+                    ? mRregionAdapter.getCityPosition(checkProvince, checkCity)
+                    : mRregionAdapter.getAreaPosition(checkProvince, checkCity, checkArea);
+            scrollToPosition(targetPosition);
         }
     }
 
@@ -171,7 +212,16 @@ public class RegionPopupWindow extends LinearLayout {
         mRregionAdapter = new RegionAdapter(getContext());
         recycleView.setLayoutManager(recycleManager);
         recycleView.setAdapter(mRregionAdapter);
+        dividerDecoration = new RegionDividerDecoration(mDividerColor, dpToPx(16), dpToPx(16), dpToPx(1));
+        recycleView.addItemDecoration(dividerDecoration);
         mRregionAdapter.setSelectColor(mSelectColor);
+    }
+
+    private int dpToPx(int dp) {
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics());
     }
 
     private void bindListeners() {
@@ -185,7 +235,13 @@ public class RegionPopupWindow extends LinearLayout {
                 bottomLineCity.setVisibility(GONE);
 
                 tvArea.setTextColor(mNormalTextColor);
-                bottomLineArea.setVisibility(GONE);
+                if (mSelectLevel == 2) {
+                    tvArea.setVisibility(GONE);
+                    bottomLineArea.setVisibility(GONE);
+                } else {
+                    tvArea.setVisibility(VISIBLE);
+                    bottomLineArea.setVisibility(GONE);
+                }
 
                 mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_PROVINCE, checkProvince, checkCity, checkArea);
                 int targetPosition = mRregionAdapter.getProvincePisition(checkProvince);
@@ -203,7 +259,13 @@ public class RegionPopupWindow extends LinearLayout {
                 bottomLineCity.setVisibility(VISIBLE);
 
                 tvArea.setTextColor(mNormalTextColor);
-                bottomLineArea.setVisibility(GONE);
+                if (mSelectLevel == 2) {
+                    tvArea.setVisibility(GONE);
+                    bottomLineArea.setVisibility(GONE);
+                } else {
+                    tvArea.setVisibility(VISIBLE);
+                    bottomLineArea.setVisibility(GONE);
+                }
 
                 mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_CITY, checkProvince, checkCity, checkArea);
                 int targetPosition = mRregionAdapter.getCityPosition(checkProvince, checkCity);
@@ -254,7 +316,7 @@ public class RegionPopupWindow extends LinearLayout {
                     tvCity.setText("请选择");
                     bottomLineCity.setVisibility(VISIBLE);
 
-                    tvArea.setText(checkArea);
+                    tvArea.setVisibility(mSelectLevel == 2 ? GONE : VISIBLE);
                     bottomLineArea.setVisibility(GONE);
 
                     checkCity = "";
@@ -263,7 +325,6 @@ public class RegionPopupWindow extends LinearLayout {
                         onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), replace(checkArea));
                     }
                 } else if (lastDataType == RegionAdapter.DATA_CITY) {
-                    newDataType = RegionAdapter.DATA_AREA;
                     checkProvince = checkedProvince;
                     checkCity = checkedCity;
                     checkArea = checkedArea;
@@ -272,13 +333,17 @@ public class RegionPopupWindow extends LinearLayout {
                     tvCity.setText(checkCity);
                     bottomLineCity.setVisibility(GONE);
 
-                    tvArea.setText("请选择");
-                    tvArea.setTextColor(mSelectColor);
-                    bottomLineArea.setVisibility(VISIBLE);
-
-                    checkArea = "";
                     if (mSelectLevel == 2) {
-                        onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), replace(checkArea));
+                        tvArea.setVisibility(GONE);
+                        bottomLineArea.setVisibility(GONE);
+                        checkArea = "";
+                        onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), "");
+                    } else {
+                        tvArea.setVisibility(VISIBLE);
+                        tvArea.setText("请选择");
+                        tvArea.setTextColor(mSelectColor);
+                        bottomLineArea.setVisibility(VISIBLE);
+                        checkArea = "";
                     }
                 } else if (lastDataType == RegionAdapter.DATA_AREA) {
                     checkProvince = checkedProvince;
@@ -354,8 +419,8 @@ public class RegionPopupWindow extends LinearLayout {
         if (headerDivider != null) {
             headerDivider.setBackgroundColor(color);
         }
-        if (mRregionAdapter != null) {
-            mRregionAdapter.setDividerColor(color);
+        if (dividerDecoration != null) {
+            dividerDecoration.setColor(color);
         }
     }
 

@@ -19,19 +19,19 @@ import java.util.List;
  */
 public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder> {
 
-    public static final int DATA_PROVINCE = 1; // 选择省
-    public static final int DATA_CITY = 2; // 选择市
-    public static final int DATA_AREA = 3; // 选择县/区
+    public static final int DATA_PROVINCE = 1;
+    public static final int DATA_CITY = 2;
+    public static final int DATA_AREA = 3;
 
-    private List<RegionBean> provinceDatas; // 总（省)数据
-    private Context mContext;
+    private List<RegionBean> provinceDatas;
+    private final Context mContext;
     private int dataType;
     private int positionProvince;
     private int positionCity;
     private int positionArea;
-    private List<Boolean> isCheckedP;
-    private List<Boolean> isCheckedC;
-    private List<Boolean> isCheckedA;
+    private final List<Boolean> isCheckedP;
+    private final List<Boolean> isCheckedC;
+    private final List<Boolean> isCheckedA;
 
     private String checkedProvince;
     private String checkedCity;
@@ -163,7 +163,6 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
         }
 
         holder.itemView.setBackgroundColor(mBackgroundColor);
-        holder.divider.setBackgroundColor(mDividerColor);
 
         if (isChecked.get(holder.getAdapterPosition())) {
             holder.tvName.setTextColor(mSelectColor);
@@ -228,20 +227,37 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
         TextView tvSelected;
-        View divider;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             tvSelected = itemView.findViewById(R.id.tvSelected);
-            divider = itemView.findViewById(R.id.itemDivider);
         }
+    }
+
+    private String normalizeRegionName(String name) {
+        if (TextUtils.isEmpty(name)) {
+            return "";
+        }
+        String result = name.trim();
+        result = result.replace("特别行政区", "");
+        result = result.replace("地区", "");
+        result = result.replace("自治州", "");
+        result = result.replace("自治县", "");
+        result = result.replace("自治区", "");
+        result = result.replace("市", "");
+        result = result.replace("区", "");
+        result = result.replace("县", "");
+        result = result.replace("盟", "");
+        result = result.replace("州", "");
+        return result;
     }
 
     public int getProvincePisition(String province) {
         if (provinceDatas != null && !TextUtils.isEmpty(province)) {
+            String targetProvince = normalizeRegionName(province);
             for (int p = 0; p < provinceDatas.size(); p++) {
-                if (provinceDatas.get(p).provinceName.equals(province)) {
+                if (normalizeRegionName(provinceDatas.get(p).provinceName).equals(targetProvince)) {
                     return p;
                 }
             }
@@ -255,8 +271,9 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
             if (p == -1) {
                 return -1;
             }
+            String targetCity = normalizeRegionName(city);
             for (int c = 0; c < provinceDatas.get(p).citys.size(); c++) {
-                if (provinceDatas.get(p).citys.get(c).cityName.equals(city)) {
+                if (normalizeRegionName(provinceDatas.get(p).citys.get(c).cityName).equals(targetCity)) {
                     return c;
                 }
             }
@@ -274,8 +291,9 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
             if (c == -1) {
                 return -1;
             }
+            String targetArea = normalizeRegionName(area);
             for (int a = 0; a < provinceDatas.get(p).citys.get(c).areas.size(); a++) {
-                if (provinceDatas.get(p).citys.get(c).areas.get(a).areaName.equals(area)) {
+                if (normalizeRegionName(provinceDatas.get(p).citys.get(c).areas.get(a).areaName).equals(targetArea)) {
                     return a;
                 }
             }

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+<!--    <color name="colorPrimary">#008577</color>-->
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
     <color name="sub_text_color">#64ffffff</color>
     <color name="color_bg_base">#05070A</color>
+    <color name="color_list_divider">#1E293B</color>
 
     <color name="color_text_base">#ffffff</color>
+
+    <color name="colorPrimary">#09AB4F</color>
+    <color name="colorAccentA">#11D81B60</color>
 
 </resources>
