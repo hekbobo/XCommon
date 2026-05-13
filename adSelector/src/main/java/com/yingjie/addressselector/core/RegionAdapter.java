@@ -70,14 +70,19 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
     public void refreshData(List<RegionBean> provinceDatas, int dataType, String checkedProvince, String checkedCity, String checkedArea) {
         this.provinceDatas = provinceDatas;
         this.dataType = dataType;
-        this.checkedProvince = checkedProvince;
-        this.positionProvince = getProvincePisition(checkedProvince);
-        this.positionCity = getCityPosition(checkedProvince, checkedCity);
-        this.positionArea = getAreaPosition(checkedProvince, checkedCity, checkedArea);
+        this.checkedProvince = checkedProvince != null ? checkedProvince : "";
+        this.checkedCity = checkedCity != null ? checkedCity : "";
+        this.checkedArea = checkedArea != null ? checkedArea : "";
+        this.positionProvince = getProvincePisition(this.checkedProvince);
+        this.positionCity = getCityPosition(this.checkedProvince, this.checkedCity);
+        this.positionArea = getAreaPosition(this.checkedProvince, this.checkedCity, this.checkedArea);
 
         if (dataType == DATA_PROVINCE) {
             isCheckedP.clear();
+            isCheckedC.clear();
+            isCheckedA.clear();
             if (provinceDatas == null) {
+                notifyDataSetChanged();
                 return;
             }
             for (int i = 0; i < provinceDatas.size(); i++) {
@@ -88,10 +93,12 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
             }
         } else if (dataType == DATA_CITY) {
             isCheckedC.clear();
+            isCheckedA.clear();
             if (provinceDatas == null ||
                     positionProvince == -1 ||
                     provinceDatas.get(positionProvince) == null ||
                     provinceDatas.get(positionProvince).citys == null) {
+                notifyDataSetChanged();
                 return;
             }
             for (int i = 0; i < provinceDatas.get(positionProvince).citys.size(); i++) {
@@ -109,6 +116,7 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
                     provinceDatas.get(positionProvince).citys == null ||
                     provinceDatas.get(positionProvince).citys.get(positionCity) == null ||
                     provinceDatas.get(positionProvince).citys.get(positionCity).areas == null) {
+                notifyDataSetChanged();
                 return;
             }
             for (int i = 0; i < provinceDatas.get(positionProvince).citys.get(positionCity).areas.size(); i++) {
@@ -129,24 +137,28 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        List<Boolean> isChecked = new ArrayList<>();
+        List<Boolean> isChecked;
 
         if (dataType == DATA_PROVINCE) {
             isChecked = isCheckedP;
-            if (provinceDatas == null || provinceDatas.get(holder.getAdapterPosition()) == null) {
+            if (provinceDatas == null || position < 0 || position >= provinceDatas.size() || provinceDatas.get(position) == null) {
+                holder.itemView.setOnClickListener(null);
                 return;
             }
-            holder.tvName.setText(provinceDatas.get(holder.getAdapterPosition()).provinceName);
+            holder.tvName.setText(provinceDatas.get(position).provinceName);
         } else if (dataType == DATA_CITY) {
             isChecked = isCheckedC;
             if (provinceDatas == null ||
                     positionProvince == -1 ||
                     provinceDatas.get(positionProvince) == null ||
                     provinceDatas.get(positionProvince).citys == null ||
-                    provinceDatas.get(positionProvince).citys.get(holder.getAdapterPosition()) == null) {
+                    position < 0 ||
+                    position >= provinceDatas.get(positionProvince).citys.size() ||
+                    provinceDatas.get(positionProvince).citys.get(position) == null) {
+                holder.itemView.setOnClickListener(null);
                 return;
             }
-            holder.tvName.setText(provinceDatas.get(positionProvince).citys.get(holder.getAdapterPosition()).cityName);
+            holder.tvName.setText(provinceDatas.get(positionProvince).citys.get(position).cityName);
         } else {
             isChecked = isCheckedA;
             if (provinceDatas == null ||
@@ -156,15 +168,18 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
                     provinceDatas.get(positionProvince).citys == null ||
                     provinceDatas.get(positionProvince).citys.get(positionCity) == null ||
                     provinceDatas.get(positionProvince).citys.get(positionCity).areas == null ||
-                    provinceDatas.get(positionProvince).citys.get(positionCity).areas.get(holder.getAdapterPosition()) == null) {
+                    position < 0 ||
+                    position >= provinceDatas.get(positionProvince).citys.get(positionCity).areas.size() ||
+                    provinceDatas.get(positionProvince).citys.get(positionCity).areas.get(position) == null) {
+                holder.itemView.setOnClickListener(null);
                 return;
             }
-            holder.tvName.setText(provinceDatas.get(positionProvince).citys.get(positionCity).areas.get(holder.getAdapterPosition()).areaName);
+            holder.tvName.setText(provinceDatas.get(positionProvince).citys.get(positionCity).areas.get(position).areaName);
         }
 
         holder.itemView.setBackgroundColor(mBackgroundColor);
 
-        if (isChecked.get(holder.getAdapterPosition())) {
+        if (isChecked.size() > position && isChecked.get(position)) {
             holder.tvName.setTextColor(mSelectColor);
             holder.tvSelected.setVisibility(View.VISIBLE);
         } else {
@@ -174,25 +189,50 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.ViewHolder
 
         if (onItemCheckedListener != null) {
             final List<Boolean> finalIsChecked = isChecked;
+            final int clickPosition = position;
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // 勿用 holder.getAdapterPosition()：notifyDataSetChanged 后常见为 NO_POSITION(-1)，
+                    // 会与 finalIsChecked.size() 比较误判（-1 >= 0），导致整列点击失效。
+                    if (clickPosition < 0 || clickPosition >= finalIsChecked.size()) {
+                        return;
+                    }
                     for (int i = 0; i < finalIsChecked.size(); i++) {
                         finalIsChecked.set(i, false);
                     }
-                    finalIsChecked.set(holder.getAdapterPosition(), true);
+                    finalIsChecked.set(clickPosition, true);
                     notifyDataSetChanged();
 
                     if (dataType == DATA_PROVINCE) {
-                        checkedProvince = holder.tvName.getText().toString();
+                        if (provinceDatas != null && clickPosition < provinceDatas.size()
+                                && provinceDatas.get(clickPosition) != null) {
+                            checkedProvince = provinceDatas.get(clickPosition).provinceName;
+                        }
                     } else if (dataType == DATA_CITY) {
-                        checkedCity = holder.tvName.getText().toString();
+                        if (provinceDatas != null && positionProvince != -1
+                                && provinceDatas.get(positionProvince) != null
+                                && provinceDatas.get(positionProvince).citys != null
+                                && clickPosition < provinceDatas.get(positionProvince).citys.size()
+                                && provinceDatas.get(positionProvince).citys.get(clickPosition) != null) {
+                            checkedCity = provinceDatas.get(positionProvince).citys.get(clickPosition).cityName;
+                        }
                     } else {
-                        checkedArea = holder.tvName.getText().toString();
+                        if (provinceDatas != null && positionProvince != -1 && positionCity != -1
+                                && provinceDatas.get(positionProvince) != null
+                                && provinceDatas.get(positionProvince).citys != null
+                                && provinceDatas.get(positionProvince).citys.get(positionCity) != null
+                                && provinceDatas.get(positionProvince).citys.get(positionCity).areas != null
+                                && clickPosition < provinceDatas.get(positionProvince).citys.get(positionCity).areas.size()
+                                && provinceDatas.get(positionProvince).citys.get(positionCity).areas.get(clickPosition) != null) {
+                            checkedArea = provinceDatas.get(positionProvince).citys.get(positionCity).areas.get(clickPosition).areaName;
+                        }
                     }
                     onItemCheckedListener.onItemChecked(dataType, checkedProvince, checkedCity, checkedArea);
                 }
             });
+        } else {
+            holder.itemView.setOnClickListener(null);
         }
     }
 

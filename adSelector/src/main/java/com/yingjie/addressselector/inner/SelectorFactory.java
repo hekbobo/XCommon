@@ -2,24 +2,17 @@ package com.yingjie.addressselector.inner;
 
 /**
  * create by chenyingjie on 2020/6/10
- * desc
+ * desc 每次展示地址选择器应使用独立实例，避免共享 {@link SelectorImp} 导致样式或状态串扰。
  */
 public class SelectorFactory {
 
-    private static ISelector iSelector = new SelectorImp();
+    private final ISelector iSelector = new SelectorImp();
 
-    public SelectorFactory() {}
+    public SelectorFactory() {
+    }
 
     public ISelector create() {
         return iSelector;
-    }
-
-    private static class SingletonHolder {
-        private static final SelectorFactory instance = new SelectorFactory();
-    }
-
-    public static SelectorFactory get() {
-        return SingletonHolder.instance;
     }
 
     public SelectorFactory setColor(int color) {

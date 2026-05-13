@@ -233,14 +233,19 @@ public class RegionPopupWindow extends LinearLayout {
 
                 tvCity.setTextColor(mNormalTextColor);
                 bottomLineCity.setVisibility(GONE);
+                checkCity = "";
+                tvCity.setText("请选择");
 
                 tvArea.setTextColor(mNormalTextColor);
                 if (mSelectLevel == 2) {
                     tvArea.setVisibility(GONE);
                     bottomLineArea.setVisibility(GONE);
+                    checkArea = "";
                 } else {
                     tvArea.setVisibility(VISIBLE);
                     bottomLineArea.setVisibility(GONE);
+                    checkArea = "";
+                    tvArea.setText("请选择");
                 }
 
                 mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_PROVINCE, checkProvince, checkCity, checkArea);
@@ -265,6 +270,8 @@ public class RegionPopupWindow extends LinearLayout {
                 } else {
                     tvArea.setVisibility(VISIBLE);
                     bottomLineArea.setVisibility(GONE);
+                    checkArea = "";
+                    tvArea.setText("请选择");
                 }
 
                 mRregionAdapter.refreshData(provinceDatas, RegionAdapter.DATA_CITY, checkProvince, checkCity, checkArea);
@@ -325,6 +332,7 @@ public class RegionPopupWindow extends LinearLayout {
                         onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), replace(checkArea));
                     }
                 } else if (lastDataType == RegionAdapter.DATA_CITY) {
+                    newDataType = mSelectLevel == 2 ? 0 : RegionAdapter.DATA_AREA;
                     checkProvince = checkedProvince;
                     checkCity = checkedCity;
                     checkArea = checkedArea;
@@ -361,6 +369,8 @@ public class RegionPopupWindow extends LinearLayout {
                         checkArea = tvArea.getText().toString();
                     }
                     onRpwItemClickListener.onRpwItemClick(replace(checkProvince), replace(checkCity), replace(checkArea));
+                    // 选择完成后无需刷新列表，直接返回，避免 newDataType=0 导致 Adapter 状态混乱
+                    return;
                 }
                 mRregionAdapter.refreshData(provinceDatas, newDataType, checkProvince, checkCity, checkArea);
                 scrollToPosition(0);

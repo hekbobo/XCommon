@@ -31,7 +31,7 @@ public class CYJAdSelector {
         int titleTextColor = resolveColor(context, mTitleTextColor);
         int dividerColor = resolveColor(context, mDividerColor);
 
-        SelectorFactory.get()
+        new SelectorFactory()
                 .setColor(selectColor)
                 .setBottomLineColor(bottomLineColor)
                 .setSelectLevel(mSelectLevel)
